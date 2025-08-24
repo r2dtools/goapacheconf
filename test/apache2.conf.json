@@ -1,0 +1,2378 @@
+{
+    "Entries": [
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# This is the main Apache server configuration file.  It contains the"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# configuration directives that give the server its instructions."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# See http://httpd.apache.org/docs/2.4/ for detailed information about"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# the directives and /usr/share/doc/apache2/README.Debian about Debian specific"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# hints."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Summary of how the Apache 2 configuration works in Debian:"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# The Apache 2 web server configuration in Debian is quite different to"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# upstream's suggested way to configure the web server. This is because Debian's"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# default Apache2 installation attempts to make adding and removing modules,"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# virtual hosts, and extra configuration directives as flexible as possible, in"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# order to make automating the changes and administering the server as easy as"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# possible."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# It is split into several files forming the configuration hierarchy outlined"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# below, all located in the /etc/apache2/ directory:"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t/etc/apache2/"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|-- apache2.conf"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|\t`--  ports.conf"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|-- mods-enabled"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|\t|-- *.load"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|\t`-- *.conf"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|-- conf-enabled"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t|\t`-- *.conf"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# \t`-- sites-enabled"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#\t \t`-- *.conf"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# * apache2.conf is the main configuration file (this file). It puts the pieces"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   together by including all remaining configuration files when starting up the"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   web server."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# * ports.conf is always included from the main configuration file. It is"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   supposed to determine listening ports for incoming connections which can be"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   customized anytime."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# * Configuration files in the mods-enabled/, conf-enabled/ and sites-enabled/"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   directories contain particular configuration snippets which manage modules,"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   global configuration fragments, or virtual host configurations,"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   respectively."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   They are activated by symlinking available configuration files from their"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   respective *-available/ counterparts. These should be managed by using our"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   helpers a2enmod/a2dismod, a2ensite/a2dissite and a2enconf/a2disconf. See"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   their respective man pages for detailed information."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# * The binary is called apache2. Due to the use of environment variables, in"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   the default configuration, apache2 needs to be started/stopped with"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   /etc/init.d/apache2 or apache2ctl. Calling /usr/bin/apache2 directly will not"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#   work with the default configuration."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Global configuration"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# ServerRoot: The top of the directory tree under which the server's"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# configuration, error, and log files are kept."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# NOTE!  If you intend to place this on an NFS (or otherwise network)"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# mounted filesystem then please read the Mutex documentation (available"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# at <URL:http://httpd.apache.org/docs/2.4/mod/core.html#mutex>);"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# you will save yourself a lot of trouble."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Do NOT add a slash at the end of the directory path."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#ServerRoot \"/etc/apache2\""
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# The accept serialization lock file MUST BE STORED ON A LOCAL DISK."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#Mutex file:${APACHE_LOCK_DIR} default"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# The directory where shm and other runtime files will be stored."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "DefaultRuntimeDir",
+                "Values": [
+                    {
+                        "Expression": "${APACHE_RUN_DIR}"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# PidFile: The file in which the server should record its process"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# identification number when it starts."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# This needs to be set in /etc/apache2/envvars"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "PidFile",
+                "Values": [
+                    {
+                        "Expression": "${APACHE_PID_FILE}"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Timeout: The number of seconds before receives and sends time out."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "Timeout",
+                "Values": [
+                    {
+                        "Expression": "300"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# KeepAlive: Whether or not to allow persistent connections (more than"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# one request per connection). Set to \"Off\" to deactivate."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "KeepAlive",
+                "Values": [
+                    {
+                        "Expression": "On"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# MaxKeepAliveRequests: The maximum number of requests to allow"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# during a persistent connection. Set to 0 to allow an unlimited amount."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# We recommend you leave this number high, for maximum performance."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "MaxKeepAliveRequests",
+                "Values": [
+                    {
+                        "Expression": "100"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# KeepAliveTimeout: Number of seconds to wait for the next request from the"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# same client on the same connection."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "KeepAliveTimeout",
+                "Values": [
+                    {
+                        "Expression": "5"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# These need to be set in /etc/apache2/envvars"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "User",
+                "Values": [
+                    {
+                        "Expression": "${APACHE_RUN_USER}"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "Group",
+                "Values": [
+                    {
+                        "Expression": "${APACHE_RUN_GROUP}"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# HostnameLookups: Log the names of clients or just their IP addresses"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# e.g., www.apache.org (on) or 204.62.129.132 (off)."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# The default is off because it'd be overall better for the net if people"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# had to knowingly turn this feature on, since enabling it means that"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# each client request will result in AT LEAST one lookup request to the"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# nameserver."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "HostnameLookups",
+                "Values": [
+                    {
+                        "Expression": "Off"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# ErrorLog: The location of the error log file."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# If you do not specify an ErrorLog directive within a <VirtualHost>"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# container, error messages relating to that virtual host will be"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# logged here.  If you *do* define an error logfile for a <VirtualHost>"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# container, that host's errors will be logged there and not here."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "ErrorLog",
+                "Values": [
+                    {
+                        "Expression": "${APACHE_LOG_DIR}/error.log"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# LogLevel: Control the severity of messages logged to the error_log."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Available values: trace8, ..., trace1, debug, info, notice, warn,"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# error, crit, alert, emerg."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# It is also possible to configure the log level for particular modules, e.g."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# \"LogLevel info ssl:warn\""
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "LogLevel",
+                "Values": [
+                    {
+                        "Expression": "warn"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Include module configuration:"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "IncludeOptional",
+                "Values": [
+                    {
+                        "Expression": "mods-enabled/*.load"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "IncludeOptional",
+                "Values": [
+                    {
+                        "Expression": "mods-enabled/*.conf"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Include list of ports to listen on"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": {
+                "Identifier": "Include",
+                "Values": [
+                    {
+                        "Expression": "ports.conf"
+                    }
+                ]
+            },
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n\n\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# Sets the default security model of the Apache2 HTTPD server. It does"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# not allow access to the root filesystem outside of /usr/share and /var/www."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# The former is used by web applications packaged in Debian,"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# the latter may be used for local directories served by the web server. If"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# your system is serving content from a sub-directory in /srv you must allow"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "# access here, or in any related virtual host."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": null,
+            "BlockDirective": {
+                "Identifier": "Directory",
+                "Parameters": [
+                    {
+                        "Expression": "/"
+                    }
+                ],
+                "Content": {
+                    "Entries": [
+                        {
+                            "StartNewLines": [
+                                "\n"
+                            ],
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "Options",
+                                "Values": [
+                                    {
+                                        "Expression": "FollowSymLinks"
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "AllowOverride",
+                                "Values": [
+                                    {
+                                        "Expression": "None"
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "Require",
+                                "Values": [
+                                    {
+                                        "Expression": "all"
+                                    },
+                                    {
+                                        "Expression": "denied"
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n",
+                                "\n\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": null,
+                            "BlockDirective": {
+                                "Identifier": "Directory",
+                                "Parameters": [
+                                    {
+                                        "Expression": "/usr/share"
+                                    }
+                                ],
+                                "Content": {
+                                    "Entries": [
+                                        {
+                                            "StartNewLines": [
+                                                "\n"
+                                            ],
+                                            "Comment": null,
+                                            "Directive": {
+                                                "Identifier": "AllowOverride",
+                                                "Values": [
+                                                    {
+                                                        "Expression": "None"
+                                                    }
+                                                ]
+                                            },
+                                            "BlockDirective": null,
+                                            "EndNewLines": [
+                                                "\n"
+                                            ]
+                                        },
+                                        {
+                                            "StartNewLines": null,
+                                            "Comment": null,
+                                            "Directive": {
+                                                "Identifier": "Require",
+                                                "Values": [
+                                                    {
+                                                        "Expression": "all"
+                                                    },
+                                                    {
+                                                        "Expression": "granted"
+                                                    }
+                                                ]
+                                            },
+                                            "BlockDirective": null,
+                                            "EndNewLines": [
+                                                "\n",
+                                                "\n\n"
+                                            ]
+                                        },
+                                        {
+                                            "StartNewLines": null,
+                                            "Comment": null,
+                                            "Directive": null,
+                                            "BlockDirective": {
+                                                "Identifier": "Directory",
+                                                "Parameters": [
+                                                    {
+                                                        "Expression": "/var/www/"
+                                                    }
+                                                ],
+                                                "Content": {
+                                                    "Entries": [
+                                                        {
+                                                            "StartNewLines": [
+                                                                "\n"
+                                                            ],
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "Options",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": "Indexes"
+                                                                    },
+                                                                    {
+                                                                        "Expression": "FollowSymLinks"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "AllowOverride",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": "None"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "Require",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": "all"
+                                                                    },
+                                                                    {
+                                                                        "Expression": "granted"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n",
+                                                                "\n\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#<Directory /srv/>"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#\tOptions Indexes FollowSymLinks"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#\tAllowOverride None"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#\tRequire all granted"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#</Directory>"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n\n\n\n\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "# AccessFileName: The name of the file to look for in each directory"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "# for additional configuration directives.  See also the AllowOverride"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "# directive."
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "AccessFileName",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": ".htaccess"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "# The following lines prevent .htaccess and .htpasswd files from being"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "# viewed by Web clients."
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": {
+                                                                "Value": "#"
+                                                            },
+                                                            "Directive": null,
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": null,
+                                                            "BlockDirective": {
+                                                                "Identifier": "FilesMatch",
+                                                                "Parameters": [
+                                                                    {
+                                                                        "Expression": "\"^\\.ht\""
+                                                                    }
+                                                                ],
+                                                                "Content": {
+                                                                    "Entries": [
+                                                                        {
+                                                                            "StartNewLines": [
+                                                                                "\n"
+                                                                            ],
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "Require",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "all"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "denied"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n",
+                                                                                "\n\n\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "#"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# The following directives define some format nicknames for use with"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# a CustomLog directive."
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "#"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# These deviate from the Common Log Format definitions in that they use %O"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# (the actual bytes sent including headers) instead of %b (the size of the"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# requested file), because the latter makes it impossible to detect partial"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# requests."
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "#"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# Note that the use of %{X-Forwarded-For}i instead of %h is not recommended."
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# Use mod_remoteip instead."
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "#"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "LogFormat",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "\"%v:%p %a %l %u %t \\\"%r\\\" %s %O \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\""
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "vhost_combined"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "LogFormat",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "\"%a %l %u %t \\\"%r\\\" %s %O \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\""
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "combined"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "LogFormat",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "\"%a %l %u %t \\\"%r\\\" %s %O\""
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "common"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "LogFormat",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "\"%{Referer}i - %U\""
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "referer"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "LogFormat",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "\"%{User-agent}i\""
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "agent"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# Include of directories ignores editors' and dpkg's backup files,"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# see README.Debian for details."
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# Include generic snippets of statements"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "IncludeOptional",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "conf-enabled/*.conf"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": {
+                                                                                "Value": "# Include the virtual host configurations:"
+                                                                            },
+                                                                            "Directive": null,
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "IncludeOptional",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "sites-enabled/*.conf"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "GracefulShutDownTimeout",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "3"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "AddOutputFilter",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "INCLUDES"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": ".shtml"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "AddType",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "text/html"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": ".shtml"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "AddType",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "application/x-httpd-php"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": ".php"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "AddType",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "application/x-httpd-php-source"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": ".phps"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "EndNewLines": null
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "EndNewLines": null
+                                        }
+                                    ]
+                                }
+                            },
+                            "EndNewLines": null
+                        }
+                    ]
+                }
+            },
+            "EndNewLines": null
+        }
+    ]
+}

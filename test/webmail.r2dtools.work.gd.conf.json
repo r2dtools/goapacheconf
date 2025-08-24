@@ -1,0 +1,1051 @@
+{
+    "Entries": [
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#ATTENTION!"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#DO NOT MODIFY THIS FILE BECAUSE IT WAS GENERATED AUTOMATICALLY,"
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": {
+                "Value": "#SO ALL YOUR CHANGES WILL BE LOST THE NEXT TIME THE FILE IS GENERATED."
+            },
+            "Directive": null,
+            "BlockDirective": null,
+            "EndNewLines": [
+                "\n"
+            ]
+        },
+        {
+            "StartNewLines": null,
+            "Comment": null,
+            "Directive": null,
+            "BlockDirective": {
+                "Identifier": "VirtualHost",
+                "Parameters": [
+                    {
+                        "Expression": "127.0.0.1:7080"
+                    }
+                ],
+                "Content": {
+                    "Entries": [
+                        {
+                            "StartNewLines": [
+                                "\n\n"
+                            ],
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "ServerName",
+                                "Values": [
+                                    {
+                                        "Expression": "\"webmail.r2dtools.work.gd\""
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "UseCanonicalName",
+                                "Values": [
+                                    {
+                                        "Expression": "Off"
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "DocumentRoot",
+                                "Values": [
+                                    {
+                                        "Expression": "\"/usr/share/psa-roundcube\""
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": {
+                                "Identifier": "Alias",
+                                "Values": [
+                                    {
+                                        "Expression": "/roundcube/"
+                                    },
+                                    {
+                                        "Expression": "\"/usr/share/psa-roundcube/\""
+                                    }
+                                ]
+                            },
+                            "BlockDirective": null,
+                            "EndNewLines": [
+                                "\n\n"
+                            ]
+                        },
+                        {
+                            "StartNewLines": null,
+                            "Comment": null,
+                            "Directive": null,
+                            "BlockDirective": {
+                                "Identifier": "IfModule",
+                                "Parameters": [
+                                    {
+                                        "Expression": "mod_suexec.c"
+                                    }
+                                ],
+                                "Content": {
+                                    "Entries": [
+                                        {
+                                            "StartNewLines": [
+                                                "\n"
+                                            ],
+                                            "Comment": null,
+                                            "Directive": {
+                                                "Identifier": "SuexecUserGroup",
+                                                "Values": [
+                                                    {
+                                                        "Expression": "roundcube_sysuser"
+                                                    },
+                                                    {
+                                                        "Expression": "roundcube_sysgroup"
+                                                    }
+                                                ]
+                                            },
+                                            "BlockDirective": null,
+                                            "EndNewLines": [
+                                                "\n",
+                                                "\n\n"
+                                            ]
+                                        },
+                                        {
+                                            "StartNewLines": null,
+                                            "Comment": null,
+                                            "Directive": null,
+                                            "BlockDirective": {
+                                                "Identifier": "IfModule",
+                                                "Parameters": [
+                                                    {
+                                                        "Expression": "mod_fcgid.c"
+                                                    }
+                                                ],
+                                                "Content": {
+                                                    "Entries": [
+                                                        {
+                                                            "StartNewLines": [
+                                                                "\n"
+                                                            ],
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "FcgidInitialEnv",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": "PP_CUSTOM_PHP_CGI_INDEX"
+                                                                    },
+                                                                    {
+                                                                        "Expression": "\"plesk-php83-fastcgi\""
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "FcgidInitialEnv",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": "PP_CUSTOM_PHP_INI"
+                                                                    },
+                                                                    {
+                                                                        "Expression": "\"/etc/psa-webmail/roundcube/php.ini\""
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": {
+                                                                "Identifier": "FcgidMaxRequestLen",
+                                                                "Values": [
+                                                                    {
+                                                                        "Expression": "134217728"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "BlockDirective": null,
+                                                            "EndNewLines": [
+                                                                "\n"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "StartNewLines": null,
+                                                            "Comment": null,
+                                                            "Directive": null,
+                                                            "BlockDirective": {
+                                                                "Identifier": "Directory",
+                                                                "Parameters": [
+                                                                    {
+                                                                        "Expression": "\"/usr/share/psa-roundcube\""
+                                                                    }
+                                                                ],
+                                                                "Content": {
+                                                                    "Entries": [
+                                                                        {
+                                                                            "StartNewLines": [
+                                                                                "\n"
+                                                                            ],
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "Options",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "-Indexes"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "+FollowSymLinks"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "AllowOverride",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "FileInfo"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "AuthConfig"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "Limit"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "Require",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "all"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "granted"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": {
+                                                                                "Identifier": "Include",
+                                                                                "Values": [
+                                                                                    {
+                                                                                        "Expression": "\"/etc/apache2/plesk.conf.d/roundcube.htaccess.inc\""
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "BlockDirective": null,
+                                                                            "EndNewLines": [
+                                                                                "\n\n"
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "StartNewLines": null,
+                                                                            "Comment": null,
+                                                                            "Directive": null,
+                                                                            "BlockDirective": {
+                                                                                "Identifier": "Files",
+                                                                                "Parameters": [
+                                                                                    {
+                                                                                        "Expression": "~"
+                                                                                    },
+                                                                                    {
+                                                                                        "Expression": "(\\.php$)"
+                                                                                    }
+                                                                                ],
+                                                                                "Content": {
+                                                                                    "Entries": [
+                                                                                        {
+                                                                                            "StartNewLines": [
+                                                                                                "\n"
+                                                                                            ],
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "SetHandler",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "fcgid-script"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "FCGIWrapper",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "/var/www/cgi-bin/cgi_wrapper/cgi_wrapper"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "Expression": ".php"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "Options",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "+ExecCGI"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n",
+                                                                                                "\n",
+                                                                                                "\n",
+                                                                                                "\n\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": {
+                                                                                                "Value": "#extension sslit begin"
+                                                                                            },
+                                                                                            "Directive": null,
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "RewriteEngine",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "On"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "RewriteCond",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "%{REQUEST_URI}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "Expression": "!^/\\.well\\-known/acme\\-challenge/"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "RewriteCond",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "%{HTTPS}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "Expression": "off"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": {
+                                                                                                "Identifier": "RewriteRule",
+                                                                                                "Values": [
+                                                                                                    {
+                                                                                                        "Expression": "^"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "Expression": "https://%{HTTP_HOST}%{REQUEST_URI}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "Expression": "[R=301,QSA]"
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": {
+                                                                                                "Value": "#extension sslit end"
+                                                                                            },
+                                                                                            "Directive": null,
+                                                                                            "BlockDirective": null,
+                                                                                            "EndNewLines": [
+                                                                                                "\n",
+                                                                                                "\n\n"
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "StartNewLines": null,
+                                                                                            "Comment": null,
+                                                                                            "Directive": null,
+                                                                                            "BlockDirective": {
+                                                                                                "Identifier": "IfModule",
+                                                                                                "Parameters": [
+                                                                                                    {
+                                                                                                        "Expression": "mod_ssl.c"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "Content": {
+                                                                                                    "Entries": [
+                                                                                                        {
+                                                                                                            "StartNewLines": [
+                                                                                                                "\n"
+                                                                                                            ],
+                                                                                                            "Comment": null,
+                                                                                                            "Directive": null,
+                                                                                                            "BlockDirective": {
+                                                                                                                "Identifier": "VirtualHost",
+                                                                                                                "Parameters": [
+                                                                                                                    {
+                                                                                                                        "Expression": "127.0.0.1:7081"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "Content": {
+                                                                                                                    "Entries": [
+                                                                                                                        {
+                                                                                                                            "StartNewLines": [
+                                                                                                                                "\n\n"
+                                                                                                                            ],
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "ServerName",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "\"webmail.r2dtools.work.gd\""
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "UseCanonicalName",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "Off"
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "SSLEngine",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "on"
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "SSLVerifyClient",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "none"
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "SSLCertificateFile",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "/opt/psa/var/certificates/cert9Jcn6w4"
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "DocumentRoot",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "\"/usr/share/psa-roundcube\""
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": {
+                                                                                                                                "Identifier": "Alias",
+                                                                                                                                "Values": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "/roundcube/"
+                                                                                                                                    },
+                                                                                                                                    {
+                                                                                                                                        "Expression": "\"/usr/share/psa-roundcube/\""
+                                                                                                                                    }
+                                                                                                                                ]
+                                                                                                                            },
+                                                                                                                            "BlockDirective": null,
+                                                                                                                            "EndNewLines": [
+                                                                                                                                "\n\n"
+                                                                                                                            ]
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "StartNewLines": null,
+                                                                                                                            "Comment": null,
+                                                                                                                            "Directive": null,
+                                                                                                                            "BlockDirective": {
+                                                                                                                                "Identifier": "IfModule",
+                                                                                                                                "Parameters": [
+                                                                                                                                    {
+                                                                                                                                        "Expression": "mod_suexec.c"
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                                                "Content": {
+                                                                                                                                    "Entries": [
+                                                                                                                                        {
+                                                                                                                                            "StartNewLines": [
+                                                                                                                                                "\n"
+                                                                                                                                            ],
+                                                                                                                                            "Comment": null,
+                                                                                                                                            "Directive": {
+                                                                                                                                                "Identifier": "SuexecUserGroup",
+                                                                                                                                                "Values": [
+                                                                                                                                                    {
+                                                                                                                                                        "Expression": "roundcube_sysuser"
+                                                                                                                                                    },
+                                                                                                                                                    {
+                                                                                                                                                        "Expression": "roundcube_sysgroup"
+                                                                                                                                                    }
+                                                                                                                                                ]
+                                                                                                                                            },
+                                                                                                                                            "BlockDirective": null,
+                                                                                                                                            "EndNewLines": [
+                                                                                                                                                "\n",
+                                                                                                                                                "\n\n"
+                                                                                                                                            ]
+                                                                                                                                        },
+                                                                                                                                        {
+                                                                                                                                            "StartNewLines": null,
+                                                                                                                                            "Comment": null,
+                                                                                                                                            "Directive": null,
+                                                                                                                                            "BlockDirective": {
+                                                                                                                                                "Identifier": "IfModule",
+                                                                                                                                                "Parameters": [
+                                                                                                                                                    {
+                                                                                                                                                        "Expression": "mod_fcgid.c"
+                                                                                                                                                    }
+                                                                                                                                                ],
+                                                                                                                                                "Content": {
+                                                                                                                                                    "Entries": [
+                                                                                                                                                        {
+                                                                                                                                                            "StartNewLines": [
+                                                                                                                                                                "\n"
+                                                                                                                                                            ],
+                                                                                                                                                            "Comment": null,
+                                                                                                                                                            "Directive": {
+                                                                                                                                                                "Identifier": "FcgidInitialEnv",
+                                                                                                                                                                "Values": [
+                                                                                                                                                                    {
+                                                                                                                                                                        "Expression": "PP_CUSTOM_PHP_CGI_INDEX"
+                                                                                                                                                                    },
+                                                                                                                                                                    {
+                                                                                                                                                                        "Expression": "\"plesk-php83-fastcgi\""
+                                                                                                                                                                    }
+                                                                                                                                                                ]
+                                                                                                                                                            },
+                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                "\n"
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                            "Comment": null,
+                                                                                                                                                            "Directive": {
+                                                                                                                                                                "Identifier": "FcgidInitialEnv",
+                                                                                                                                                                "Values": [
+                                                                                                                                                                    {
+                                                                                                                                                                        "Expression": "PP_CUSTOM_PHP_INI"
+                                                                                                                                                                    },
+                                                                                                                                                                    {
+                                                                                                                                                                        "Expression": "\"/etc/psa-webmail/roundcube/php.ini\""
+                                                                                                                                                                    }
+                                                                                                                                                                ]
+                                                                                                                                                            },
+                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                "\n"
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                            "Comment": null,
+                                                                                                                                                            "Directive": {
+                                                                                                                                                                "Identifier": "FcgidMaxRequestLen",
+                                                                                                                                                                "Values": [
+                                                                                                                                                                    {
+                                                                                                                                                                        "Expression": "134217728"
+                                                                                                                                                                    }
+                                                                                                                                                                ]
+                                                                                                                                                            },
+                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                "\n"
+                                                                                                                                                            ]
+                                                                                                                                                        },
+                                                                                                                                                        {
+                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                            "Comment": null,
+                                                                                                                                                            "Directive": null,
+                                                                                                                                                            "BlockDirective": {
+                                                                                                                                                                "Identifier": "Directory",
+                                                                                                                                                                "Parameters": [
+                                                                                                                                                                    {
+                                                                                                                                                                        "Expression": "\"/usr/share/psa-roundcube\""
+                                                                                                                                                                    }
+                                                                                                                                                                ],
+                                                                                                                                                                "Content": {
+                                                                                                                                                                    "Entries": [
+                                                                                                                                                                        {
+                                                                                                                                                                            "StartNewLines": [
+                                                                                                                                                                                "\n"
+                                                                                                                                                                            ],
+                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                "Identifier": "Options",
+                                                                                                                                                                                "Values": [
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "-Indexes"
+                                                                                                                                                                                    },
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "+FollowSymLinks"
+                                                                                                                                                                                    }
+                                                                                                                                                                                ]
+                                                                                                                                                                            },
+                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                "\n"
+                                                                                                                                                                            ]
+                                                                                                                                                                        },
+                                                                                                                                                                        {
+                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                "Identifier": "AllowOverride",
+                                                                                                                                                                                "Values": [
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "FileInfo"
+                                                                                                                                                                                    },
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "AuthConfig"
+                                                                                                                                                                                    },
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "Limit"
+                                                                                                                                                                                    }
+                                                                                                                                                                                ]
+                                                                                                                                                                            },
+                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                "\n"
+                                                                                                                                                                            ]
+                                                                                                                                                                        },
+                                                                                                                                                                        {
+                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                "Identifier": "Require",
+                                                                                                                                                                                "Values": [
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "all"
+                                                                                                                                                                                    },
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "granted"
+                                                                                                                                                                                    }
+                                                                                                                                                                                ]
+                                                                                                                                                                            },
+                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                "\n"
+                                                                                                                                                                            ]
+                                                                                                                                                                        },
+                                                                                                                                                                        {
+                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                "Identifier": "Include",
+                                                                                                                                                                                "Values": [
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "\"/etc/apache2/plesk.conf.d/roundcube.htaccess.inc\""
+                                                                                                                                                                                    }
+                                                                                                                                                                                ]
+                                                                                                                                                                            },
+                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                "\n\n"
+                                                                                                                                                                            ]
+                                                                                                                                                                        },
+                                                                                                                                                                        {
+                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                            "Directive": null,
+                                                                                                                                                                            "BlockDirective": {
+                                                                                                                                                                                "Identifier": "Files",
+                                                                                                                                                                                "Parameters": [
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "~"
+                                                                                                                                                                                    },
+                                                                                                                                                                                    {
+                                                                                                                                                                                        "Expression": "(\\.php$)"
+                                                                                                                                                                                    }
+                                                                                                                                                                                ],
+                                                                                                                                                                                "Content": {
+                                                                                                                                                                                    "Entries": [
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": [
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ],
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "SetHandler",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "fcgid-script"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "FCGIWrapper",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "/var/www/cgi-bin/cgi_wrapper/cgi_wrapper"
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    {"Expression": ".php"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "Options",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "+ExecCGI"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n",
+                                                                                                                                                                                                "\n",
+                                                                                                                                                                                                "\n",
+                                                                                                                                                                                                "\n\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": {
+                                                                                                                                                                                                "Value": "#extension sslit begin"
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "Directive": null,
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "RewriteEngine",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "On"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "RewriteCond",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "%{REQUEST_URI}"
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    {"Expression": "!^/\\.well\\-known/acme\\-challenge/"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "RewriteCond",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "%{HTTPS}"
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    {"Expression": "off"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": null,
+                                                                                                                                                                                            "Directive": {
+                                                                                                                                                                                                "Identifier": "RewriteRule",
+                                                                                                                                                                                                "Values": [
+                                                                                                                                                                                                    {"Expression": "^"
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    {"Expression": "https://%{HTTP_HOST}%{REQUEST_URI}"
+                                                                                                                                                                                                    },
+                                                                                                                                                                                                    {"Expression": "[R=301,QSA]"
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                ]
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            "StartNewLines": null,
+                                                                                                                                                                                            "Comment": {
+                                                                                                                                                                                                "Value": "#extension sslit end"
+                                                                                                                                                                                            },
+                                                                                                                                                                                            "Directive": null,
+                                                                                                                                                                                            "BlockDirective": null,
+                                                                                                                                                                                            "EndNewLines": [
+                                                                                                                                                                                                "\n",
+                                                                                                                                                                                                "\n",
+                                                                                                                                                                                                "\n"
+                                                                                                                                                                                            ]
+                                                                                                                                                                                        }
+                                                                                                                                                                                    ]
+                                                                                                                                                                                }
+                                                                                                                                                                            },
+                                                                                                                                                                            "EndNewLines": null
+                                                                                                                                                                        }
+                                                                                                                                                                    ]
+                                                                                                                                                                }
+                                                                                                                                                            },
+                                                                                                                                                            "EndNewLines": null
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            },
+                                                                                                                                            "EndNewLines": null
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            },
+                                                                                                                            "EndNewLines": null
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            },
+                                                                                                            "EndNewLines": null
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            },
+                                                                                            "EndNewLines": null
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            "EndNewLines": null
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "EndNewLines": null
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "EndNewLines": null
+                                        }
+                                    ]
+                                }
+                            },
+                            "EndNewLines": null
+                        }
+                    ]
+                }
+            },
+            "EndNewLines": null
+        }
+    ]
+}
