@@ -1,0 +1,26 @@
+name: goapacheconf-push
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Set up Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.24
+      id: go
+      
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Get dependencies
+      run: |
+        go mod download
+        go install ./...
+
+    - name: Run tests
+      run: go test ./...
