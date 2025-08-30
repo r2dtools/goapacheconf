@@ -11,6 +11,7 @@ const (
 	whitespace         = `[^\S\r\n]+`
 	ident              = `[\w]+`
 	newLine            = `[\r\n]+`
+	nextLine           = `\\` + newLine
 	comment            = `(?:#)[^\n]*`
 	blockStartOpen     = `<`
 	blockStartClose    = `>`
@@ -195,6 +196,7 @@ func GetRawParser() (*RawParser, error) {
 		},
 		"Directive": {
 			{Name: `whitespace`, Pattern: whitespace, Action: nil},
+			{Name: "nextLine", Pattern: nextLine, Action: nil},
 			{Name: `StringDoubleQuoted`, Pattern: stringDoubleQuoted, Action: nil},
 			{Name: `StringSingleQuoted`, Pattern: stringSingleQuoted, Action: nil},
 			{Name: "Expression", Pattern: expression, Action: nil},
