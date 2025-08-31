@@ -79,55 +79,28 @@ func (c *Config) parseRecursively(configPath string) error {
 
 				includePath := entry.Directive.GetFirstValueStr()
 
-				if includePath != "" {
-					c.parseRecursively(includePath)
+				if includePath == "" {
+					continue
+				}
+
+				if err := c.parseRecursively(includePath); err != nil {
+					return err
 				}
 
 				continue
 			}
 
-			// Look for includes in 'VirtualHost'/'Directory' context
-			if identifier == "virtualhost" || identifier == "directory" {
-				if entry.BlockDirective == nil {
-					return ErrInvalidBlock
+			// Parse included files in blocks
+			if entry.BlockDirective != nil {
+				includePaths, err := c.findBlockIcludePathsRecursively(entry.BlockDirective)
+
+				if err != nil {
+					return err
 				}
 
-				for _, subEntry := range entry.BlockDirective.GetEntries() {
-					subIdentifier := strings.ToLower(subEntry.GetIdentifier())
-
-					if c.isInclude(subIdentifier) {
-						if subEntry.Directive == nil {
-							return ErrInvalidDirective
-						}
-
-						includePath := subEntry.Directive.GetFirstValueStr()
-
-						if includePath != "" {
-							c.parseRecursively(includePath)
-						}
-
-						continue
-					}
-
-					// Look for includes in a 'Directory' context within an 'VirtualHost' context
-					if identifier == "virtualhost" && subIdentifier == "directory" {
-						if subEntry.BlockDirective == nil {
-							return ErrInvalidBlock
-						}
-
-						for _, directoryEntry := range subEntry.BlockDirective.GetEntries() {
-							if c.isInclude(strings.ToLower(directoryEntry.GetIdentifier())) {
-								if directoryEntry.Directive == nil {
-									return ErrInvalidDirective
-								}
-
-								includeFile := directoryEntry.Directive.GetFirstValueStr()
-
-								if includeFile != "" {
-									c.parseRecursively(includeFile)
-								}
-							}
-						}
+				for _, includePath := range includePaths {
+					if err := c.parseRecursively(includePath); err != nil {
+						return err
 					}
 				}
 			}
@@ -135,6 +108,42 @@ func (c *Config) parseRecursively(configPath string) error {
 	}
 
 	return nil
+}
+
+func (c *Config) findBlockIcludePathsRecursively(block *rawparser.BlockDirective) ([]string, error) {
+	var includePaths []string
+
+	for _, entry := range block.GetEntries() {
+		identifier := strings.ToLower(entry.GetIdentifier())
+
+		if !c.isInclude(identifier) {
+			continue
+		}
+
+		if entry.Directive == nil {
+			return includePaths, ErrInvalidDirective
+		}
+
+		includePath := entry.Directive.GetFirstValueStr()
+
+		if includePath != "" {
+			includePaths = append(includePaths, includePath)
+
+			continue
+		}
+
+		if entry.BlockDirective != nil {
+			blockIncludePaths, err := c.findBlockIcludePathsRecursively(entry.BlockDirective)
+
+			if err != nil {
+				return includePaths, err
+			}
+
+			includePaths = append(includePaths, blockIncludePaths...)
+		}
+	}
+
+	return includePaths, nil
 }
 
 func (c *Config) parseFilesByPath(path string, override bool) ([]*rawparser.Config, error) {
@@ -180,6 +189,8 @@ func (c *Config) parseFilesByPath(path string, override bool) ([]*rawparser.Conf
 }
 
 func (c *Config) getAbsPath(path string) string {
+	path = strings.Trim(path, "'\"")
+
 	if filepath.IsAbs(path) {
 		return filepath.Clean(path)
 	}
