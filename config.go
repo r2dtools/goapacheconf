@@ -3,11 +3,15 @@ package goapacheconf
 import (
 	"errors"
 	"fmt"
+	"maps"
 	"os"
 	"path"
 	"path/filepath"
+	"slices"
+	"sort"
 	"strings"
 
+	"github.com/r2dtools/goapacheconf/internal/container"
 	"github.com/r2dtools/goapacheconf/internal/rawdumper"
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 	"github.com/unknwon/com"
@@ -52,6 +56,191 @@ func (c *Config) Dump() error {
 
 func (c *Config) ParseFile(configPath string) error {
 	return c.parseRecursively(configPath)
+}
+
+func (c *Config) GetEnabledModules() []string {
+	var modules []string
+	moduleDirectives := c.FindDirectives("LoadModule")
+
+	for _, moduleDirective := range moduleDirectives {
+		name := moduleDirective.GetFirstValue()
+
+		if name != "" {
+			modules = append(modules, moduleDirective.GetFirstValue())
+		}
+
+	}
+
+	return modules
+}
+
+func (c *Config) FindBlocks(blockName string) []Block {
+	var blocks []Block
+
+	keys := slices.Collect(maps.Keys(c.parsedFiles))
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		tree, ok := c.parsedFiles[key]
+
+		if !ok {
+			continue
+		}
+
+		for _, entry := range tree.Entries {
+			blocks = append(blocks, c.findBlocksRecursively(blockName, key, tree, entry, false)...)
+		}
+	}
+
+	return blocks
+}
+
+func (c *Config) FindDirectives(directiveName string) []Directive {
+	var directives []Directive
+
+	keys := slices.Collect(maps.Keys(c.parsedFiles))
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		tree, ok := c.parsedFiles[key]
+
+		if !ok {
+			continue
+		}
+
+		for _, entry := range tree.GetEntries() {
+			directives = append(
+				directives,
+				c.findDirectivesRecursively(directiveName, tree, entry, false)...,
+			)
+		}
+	}
+
+	return directives
+}
+
+func (c *Config) findDirectivesRecursively(
+	directiveName string,
+	container container.EntryContainer,
+	entry *rawparser.Entry,
+	withInclude bool,
+) []Directive {
+	var directives []Directive
+	directive := entry.Directive
+	blockDirective := entry.BlockDirective
+
+	if directive != nil {
+		identifier := directive.Identifier
+
+		if withInclude && c.isInclude(identifier) {
+			include := c.getAbsPath(directive.GetFirstValueStr())
+			includeFiles, err := filepath.Glob(include)
+
+			if err != nil {
+				return directives
+			}
+
+			for _, includePath := range includeFiles {
+				includeConfig, ok := c.parsedFiles[includePath]
+
+				if !ok {
+					continue
+				}
+
+				for _, entry := range includeConfig.GetEntries() {
+					directives = append(
+						directives,
+						c.findDirectivesRecursively(directiveName, includeConfig, entry, withInclude)...,
+					)
+				}
+			}
+		}
+
+		if identifier == directiveName {
+			directives = append(directives, Directive{
+				rawDirective: directive,
+				container:    container,
+			})
+
+			return directives
+		}
+	}
+
+	if blockDirective == nil {
+		return directives
+	}
+
+	for _, bEntry := range blockDirective.GetEntries() {
+		directives = append(
+			directives,
+			c.findDirectivesRecursively(directiveName, blockDirective, bEntry, withInclude)...,
+		)
+	}
+
+	return directives
+}
+
+func (c *Config) findBlocksRecursively(
+	blockName string,
+	path string,
+	container container.EntryContainer,
+	entry *rawparser.Entry,
+	withInclude bool,
+) []Block {
+	var blocks []Block
+	directive := entry.Directive
+	blockDirective := entry.BlockDirective
+
+	if withInclude && directive != nil && c.isInclude(directive.Identifier) {
+		include := c.getAbsPath(directive.GetFirstValueStr())
+		includeFiles, err := filepath.Glob(include)
+
+		if err != nil {
+			return blocks
+		}
+
+		for _, includePath := range includeFiles {
+			includeConfig, ok := c.parsedFiles[includePath]
+
+			if !ok {
+				continue
+			}
+
+			for _, entry := range includeConfig.Entries {
+				blocks = append(
+					blocks,
+					c.findBlocksRecursively(blockName, includePath, includeConfig, entry, withInclude)...,
+				)
+			}
+		}
+
+		return blocks
+	}
+
+	if blockDirective == nil {
+		return blocks
+
+	}
+
+	if blockDirective.Identifier == blockName {
+		blocks = append(blocks, Block{
+			FilePath:  path,
+			config:    c,
+			container: container,
+			rawBlock:  blockDirective,
+			rawDumper: &rawdumper.RawDumper{},
+		})
+	} else {
+		// blocks can be nested
+		for _, blockEntry := range blockDirective.GetEntries() {
+			blocks = append(
+				blocks,
+				c.findBlocksRecursively(blockName, path, blockDirective, blockEntry, withInclude)...,
+			)
+		}
+	}
+
+	return blocks
 }
 
 func (c *Config) parse() error {
