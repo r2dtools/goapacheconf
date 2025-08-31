@@ -1,13 +1,13 @@
-package container
+package goapacheconf
 
 import "github.com/r2dtools/goapacheconf/internal/rawparser"
 
-type EntryContainer interface {
+type entryContainer interface {
 	GetEntries() []*rawparser.Entry
 	SetEntries(entries []*rawparser.Entry)
 }
 
-func setEntries(c EntryContainer, entries []*rawparser.Entry) {
+func setEntries(c entryContainer, entries []*rawparser.Entry) {
 	entriesCount := len(entries)
 
 	if entriesCount > 0 {

@@ -11,7 +11,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/r2dtools/goapacheconf/internal/container"
 	"github.com/r2dtools/goapacheconf/internal/rawdumper"
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 	"github.com/unknwon/com"
@@ -26,6 +25,22 @@ type Config struct {
 	parsedFiles map[string]*rawparser.Config
 	serverRoot  string
 	configRoot  string
+}
+
+func (c *Config) GetConfigFile(configFileName string) *ConfigFile {
+	for configFilePath, config := range c.parsedFiles {
+		pConfigFileName := filepath.Base(configFilePath)
+
+		if configFileName == pConfigFileName {
+			return &ConfigFile{
+				FilePath:   configFilePath,
+				configFile: config,
+				config:     c,
+			}
+		}
+	}
+
+	return nil
 }
 
 func (c *Config) Dump() error {
@@ -72,6 +87,14 @@ func (c *Config) GetEnabledModules() []string {
 	}
 
 	return modules
+}
+
+func (c *Config) FindVirtualHostBlocks() []VirtualHostBlock {
+	return findVirtualhostBlocks(c)
+}
+
+func (c *Config) FindVirtualHostBlocksByServerName(serverName string) []VirtualHostBlock {
+	return findVirtualHostBlocksByServerName(c, serverName)
 }
 
 func (c *Config) FindBlocks(blockName string) []Block {
@@ -121,7 +144,7 @@ func (c *Config) FindDirectives(directiveName string) []Directive {
 
 func (c *Config) findDirectivesRecursively(
 	directiveName string,
-	container container.EntryContainer,
+	container entryContainer,
 	entry *rawparser.Entry,
 	withInclude bool,
 ) []Directive {
@@ -183,7 +206,7 @@ func (c *Config) findDirectivesRecursively(
 func (c *Config) findBlocksRecursively(
 	blockName string,
 	path string,
-	container container.EntryContainer,
+	container entryContainer,
 	entry *rawparser.Entry,
 	withInclude bool,
 ) []Block {

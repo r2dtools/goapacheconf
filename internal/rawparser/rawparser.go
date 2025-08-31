@@ -208,6 +208,7 @@ func GetRawParser() (*RawParser, error) {
 			{Name: `whitespace`, Pattern: whitespace, Action: nil},
 			{Name: `Ident`, Pattern: ident, Action: lexer.Push("BlockParams")},
 			{Name: `NewLine`, Pattern: newLine, Action: lexer.Push("BlockContent")},
+			{Name: "BlockEndOpen", Pattern: blockEndOpen, Action: lexer.Push("BlockEnd")}, // block can be empty
 			lexer.Return(),
 		},
 		"BlockParams": {

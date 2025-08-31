@@ -4,9 +4,11 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+var r2dtoolsConfigFilePath = "test/apache2/plesk.conf.d/vhosts/r2dtools.work.gd.conf"
+var r2dtoolsConfigFileName = "r2dtools.work.gd.conf"
 
 func TestGetConfig(t *testing.T) {
 	config := getConfig(t)
@@ -40,10 +42,10 @@ func getConfig(t *testing.T) *Config {
 
 func testWithConfigFileRollback(t *testing.T, configFilePath string, testFunc func(t *testing.T)) {
 	configFileContent, err := os.ReadFile(configFilePath)
-	assert.Nil(t, err)
+	require.Nil(t, err)
 
 	testFunc(t)
 
 	err = os.WriteFile(configFilePath, configFileContent, 0666)
-	assert.Nil(t, err)
+	require.Nil(t, err)
 }
