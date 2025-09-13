@@ -44,8 +44,13 @@ func testWithConfigFileRollback(t *testing.T, configFilePath string, testFunc fu
 	configFileContent, err := os.ReadFile(configFilePath)
 	require.Nil(t, err)
 
-	testFunc(t)
+	defer func() {
+		err = os.WriteFile(configFilePath, configFileContent, 0666)
 
-	err = os.WriteFile(configFilePath, configFileContent, 0666)
-	require.Nil(t, err)
+		if err != nil {
+			t.Log(err)
+		}
+	}()
+
+	testFunc(t)
 }
