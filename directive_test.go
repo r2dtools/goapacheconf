@@ -18,17 +18,17 @@ func TestFindDirective(t *testing.T) {
 	assert.Equal(t, "/opt/psa/var/certificates/cert9Jcn6w4", directive.GetFirstValue())
 }
 
-func TestDirectiveSetValue(t *testing.T) {
+func TestDirectiveChangeValue(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		certPath := "/path/to/certificate"
 
-		config, directive := getVirtualHostBlockDirective(t, "r2dtools.work.gd", "SSLCertificateFile")
+		config, directive := getVirtualHostBlockFirstDirective(t, "r2dtools.work.gd", "SSLCertificateFile")
 
 		directive.SetValue(certPath)
 		err := config.Dump()
 		require.Nil(t, err)
 
-		config, directive = getVirtualHostBlockDirective(t, "r2dtools.work.gd", "SSLCertificateFile")
+		config, directive = getVirtualHostBlockFirstDirective(t, "r2dtools.work.gd", "SSLCertificateFile")
 		require.Equal(t, certPath, directive.GetFirstValue())
 	})
 }

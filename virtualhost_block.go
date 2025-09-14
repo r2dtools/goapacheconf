@@ -25,6 +25,25 @@ func (v *VirtualHostBlock) GetServerNames() []string {
 	return serverNames
 }
 
+func (v *VirtualHostBlock) GetServerAliases() []string {
+	serverAliases := []string{}
+	directives := v.FindDirectives("ServerAlias")
+
+	if len(directives) == 0 {
+		return serverAliases
+	}
+
+	for _, directive := range directives {
+		serverAliases = append(serverAliases, directive.GetValues()...)
+	}
+
+	for index, serverAlias := range serverAliases {
+		serverAliases[index] = strings.Trim(serverAlias, " \"")
+	}
+
+	return serverAliases
+}
+
 func (v *VirtualHostBlock) GetDocumentRoot() string {
 	directives := v.FindDirectives("DocumentRoot")
 

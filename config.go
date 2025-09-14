@@ -20,11 +20,12 @@ var ErrInvalidDirective = errors.New("entry is not a directive")
 var ErrInvalidBlock = errors.New("entry is not a block")
 
 type Config struct {
-	rawParser   *rawparser.RawParser
-	rawDumper   *rawdumper.RawDumper
-	parsedFiles map[string]*rawparser.Config
-	serverRoot  string
-	configRoot  string
+	rawParser      *rawparser.RawParser
+	rawDumper      *rawdumper.RawDumper
+	parsedFiles    map[string]*rawparser.Config
+	enabledModules map[string]struct{}
+	serverRoot     string
+	configRoot     string
 }
 
 func (c *Config) GetConfigFile(configFileName string) *ConfigFile {
@@ -73,20 +74,34 @@ func (c *Config) ParseFile(configPath string) error {
 	return c.parseRecursively(configPath)
 }
 
-func (c *Config) GetEnabledModules() []string {
-	var modules []string
-	moduleDirectives := c.FindDirectives("LoadModule")
+func (c *Config) GetEnabledModules() map[string]struct{} {
+	if c.enabledModules == nil {
+		moduleDirectives := c.FindDirectives("LoadModule")
+		modules := make(map[string]struct{}, len(moduleDirectives))
 
-	for _, moduleDirective := range moduleDirectives {
-		name := moduleDirective.GetFirstValue()
+		for _, moduleDirective := range moduleDirectives {
+			name := moduleDirective.GetFirstValue()
+			name = strings.TrimSuffix(name, "_module")
+			name = strings.ToLower(name)
 
-		if name != "" {
-			modules = append(modules, moduleDirective.GetFirstValue())
+			if name != "" {
+				modules[name] = struct{}{}
+			}
+
 		}
 
+		c.enabledModules = modules
 	}
 
-	return modules
+	return c.enabledModules
+}
+
+func (c *Config) IsModuleEnabled(name string) bool {
+	enabledModules := c.GetEnabledModules()
+	name = strings.ToLower(name)
+	_, ok := enabledModules[name]
+
+	return ok
 }
 
 func (c *Config) FindVirtualHostBlocks() []VirtualHostBlock {
@@ -140,6 +155,20 @@ func (c *Config) FindDirectives(directiveName string) []Directive {
 	}
 
 	return directives
+}
+
+func (c *Config) AddConfigFile(filePath string) (*ConfigFile, error) {
+	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
+		configFile := ConfigFile{
+			FilePath:   filePath,
+			configFile: &rawparser.Config{},
+			config:     c,
+		}
+
+		return &configFile, nil
+	}
+
+	return nil, fmt.Errorf("file %s already exists", filePath)
 }
 
 func (c *Config) findDirectivesRecursively(
