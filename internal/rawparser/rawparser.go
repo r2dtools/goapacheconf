@@ -131,6 +131,16 @@ func (b *BlockDirective) GetParametersExpressions() []string {
 	return getExpressions(b.Parameters)
 }
 
+func (b *BlockDirective) GetFirstParameter() string {
+	parameters := b.GetParametersExpressions()
+
+	if len(parameters) == 0 {
+		return ""
+	}
+
+	return parameters[0]
+}
+
 func (b *BlockDirective) SetParameters(parameters []string) {
 	values := []*Value{}
 

@@ -28,13 +28,13 @@ func TestIsModuleEnabled(t *testing.T) {
 
 func TestFindDirectives(t *testing.T) {
 	config := getConfig(t)
-	directives := config.FindDirectives("SSLEngine")
+	directives := config.FindDirectives(SSLEngine)
 	require.Len(t, directives, 4)
 }
 
 func TestFindblocks(t *testing.T) {
 	config := getConfig(t)
-	blocks := config.FindBlocks("VirtualHost")
+	blocks := config.FindBlocks(VirtualHost)
 	require.Len(t, blocks, 9)
 }
 

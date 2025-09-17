@@ -12,7 +12,7 @@ type ConfigFile struct {
 	config     *Config
 }
 
-func (c *ConfigFile) FindDirectives(directiveName string) []Directive {
+func (c *ConfigFile) FindDirectives(directiveName DirectiveName) []Directive {
 	var directives []Directive
 
 	for _, entry := range c.configFile.GetEntries() {
@@ -22,7 +22,7 @@ func (c *ConfigFile) FindDirectives(directiveName string) []Directive {
 	return directives
 }
 
-func (c *ConfigFile) FindBlocks(blockName string) []Block {
+func (c *ConfigFile) FindBlocks(blockName BlockName) []Block {
 	var blocks []Block
 
 	for _, entry := range c.configFile.GetEntries() {

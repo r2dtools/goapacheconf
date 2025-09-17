@@ -16,12 +16,12 @@ func TestFindVirtualHostBlocksByNameInConfigFile(t *testing.T) {
 func TestDeleteDirectiveByNameInConfigFile(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		config, block := getFirstVirtualHostBlock(t, "r2dtools.work.gd")
-		block.DeleteDirectiveByName("UseCanonicalName")
+		block.DeleteDirectiveByName(UseCanonicalName)
 		err := config.Dump()
 		require.Nil(t, err)
 
 		_, block = getFirstVirtualHostBlock(t, "r2dtools.work.gd")
-		directives := block.FindDirectives("UseCanonicalName")
+		directives := block.FindDirectives(UseCanonicalName)
 		require.Empty(t, directives)
 	})
 }

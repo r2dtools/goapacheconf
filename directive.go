@@ -6,6 +6,20 @@ import (
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 )
 
+type DirectiveName string
+
+const (
+	LoadModule         = "LoadModule"
+	ServerName         = "ServerName"
+	ServerAlias        = "ServerAlias"
+	DocumentRoot       = "DocumentRoot"
+	SSLEngine          = "SSLEngine"
+	SSLCertificateFile = "SSLCertificateFile"
+	UseCanonicalName   = "UseCanonicalName"
+	Include            = "Include"
+	IncludeOptional    = "IncludeOptional"
+)
+
 type Directive struct {
 	rawDirective *rawparser.Directive
 	container    entryContainer

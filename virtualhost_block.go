@@ -8,7 +8,7 @@ type VirtualHostBlock struct {
 
 func (v *VirtualHostBlock) GetServerNames() []string {
 	serverNames := []string{}
-	directives := v.FindDirectives("ServerName")
+	directives := v.FindDirectives(ServerName)
 
 	if len(directives) == 0 {
 		return serverNames
@@ -27,7 +27,7 @@ func (v *VirtualHostBlock) GetServerNames() []string {
 
 func (v *VirtualHostBlock) GetServerAliases() []string {
 	serverAliases := []string{}
-	directives := v.FindDirectives("ServerAlias")
+	directives := v.FindDirectives(ServerAlias)
 
 	if len(directives) == 0 {
 		return serverAliases
@@ -45,7 +45,7 @@ func (v *VirtualHostBlock) GetServerAliases() []string {
 }
 
 func (v *VirtualHostBlock) GetDocumentRoot() string {
-	directives := v.FindDirectives("DocumentRoot")
+	directives := v.FindDirectives(DocumentRoot)
 
 	if len(directives) == 0 {
 		return ""
@@ -75,7 +75,7 @@ func (s *VirtualHostBlock) HasSSL() bool {
 		}
 	}
 
-	sslDirectives := s.FindDirectives("SSLEngine")
+	sslDirectives := s.FindDirectives(SSLEngine)
 
 	for _, sslDirective := range sslDirectives {
 		if sslDirective.GetFirstValue() == "on" {

@@ -76,13 +76,15 @@ func (c *Config) ParseFile(configPath string) error {
 
 func (c *Config) GetEnabledModules() map[string]struct{} {
 	if c.enabledModules == nil {
-		moduleDirectives := c.FindDirectives("LoadModule")
+		moduleDirectives := c.FindDirectives(LoadModule)
 		modules := make(map[string]struct{}, len(moduleDirectives))
 
 		for _, moduleDirective := range moduleDirectives {
-			name := moduleDirective.GetFirstValue()
-			name = strings.TrimSuffix(name, "_module")
-			name = strings.ToLower(name)
+			loadModuleDirective := LoadModuleDirective{
+				Directive: moduleDirective,
+			}
+
+			name := loadModuleDirective.GetModuleName()
 
 			if name != "" {
 				modules[name] = struct{}{}
@@ -112,7 +114,7 @@ func (c *Config) FindVirtualHostBlocksByServerName(serverName string) []VirtualH
 	return findVirtualHostBlocksByServerName(c, serverName)
 }
 
-func (c *Config) FindBlocks(blockName string) []Block {
+func (c *Config) FindBlocks(blockName BlockName) []Block {
 	var blocks []Block
 
 	keys := slices.Collect(maps.Keys(c.parsedFiles))
@@ -133,7 +135,7 @@ func (c *Config) FindBlocks(blockName string) []Block {
 	return blocks
 }
 
-func (c *Config) FindDirectives(directiveName string) []Directive {
+func (c *Config) FindDirectives(directiveName DirectiveName) []Directive {
 	var directives []Directive
 
 	keys := slices.Collect(maps.Keys(c.parsedFiles))
@@ -172,7 +174,7 @@ func (c *Config) AddConfigFile(filePath string) (*ConfigFile, error) {
 }
 
 func (c *Config) findDirectivesRecursively(
-	directiveName string,
+	directiveName DirectiveName,
 	container entryContainer,
 	entry *rawparser.Entry,
 	withInclude bool,
@@ -208,7 +210,7 @@ func (c *Config) findDirectivesRecursively(
 			}
 		}
 
-		if identifier == directiveName {
+		if identifier == string(directiveName) {
 			directives = append(directives, Directive{
 				rawDirective: directive,
 				container:    container,
@@ -233,7 +235,7 @@ func (c *Config) findDirectivesRecursively(
 }
 
 func (c *Config) findBlocksRecursively(
-	blockName string,
+	blockName BlockName,
 	path string,
 	container entryContainer,
 	entry *rawparser.Entry,
@@ -274,14 +276,16 @@ func (c *Config) findBlocksRecursively(
 
 	}
 
-	if blockDirective.Identifier == blockName {
-		blocks = append(blocks, Block{
-			FilePath:  path,
-			config:    c,
-			container: container,
-			rawBlock:  blockDirective,
-			rawDumper: &rawdumper.RawDumper{},
-		})
+	block := Block{
+		FilePath:  path,
+		config:    c,
+		container: container,
+		rawBlock:  blockDirective,
+		rawDumper: &rawdumper.RawDumper{},
+	}
+
+	if blockDirective.Identifier == string(blockName) {
+		blocks = append(blocks, block)
 	} else {
 		// blocks can be nested
 		for _, blockEntry := range blockDirective.GetEntries() {
@@ -440,7 +444,7 @@ func (c *Config) getAbsPath(path string) string {
 }
 
 func (c *Config) isInclude(identifier string) bool {
-	return identifier == "include" || identifier == "includeoptional"
+	return identifier == strings.ToLower(Include) || identifier == strings.ToLower(IncludeOptional)
 }
 
 func GetConfig(serverRootPath, configFilePath string) (*Config, error) {

@@ -7,6 +7,14 @@ import (
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 )
 
+type BlockName string
+
+const (
+	VirtualHost BlockName = "VirtualHost"
+	Directory   BlockName = "Directory"
+	IfModule    BlockName = "IfModule"
+)
+
 type Block struct {
 	FilePath  string
 	config    *Config
@@ -27,7 +35,7 @@ func (b *Block) SetParameters(parameters []string) {
 	b.rawBlock.SetParameters(parameters)
 }
 
-func (b *Block) FindDirectives(directiveName string) []Directive {
+func (b *Block) FindDirectives(directiveName DirectiveName) []Directive {
 	var directives []Directive
 
 	for _, entry := range b.rawBlock.GetEntries() {
@@ -37,7 +45,7 @@ func (b *Block) FindDirectives(directiveName string) []Directive {
 	return directives
 }
 
-func (b *Block) FindBlocks(blockName string) []Block {
+func (b *Block) FindBlocks(blockName BlockName) []Block {
 	var blocks []Block
 
 	for _, entry := range b.rawBlock.GetEntries() {
@@ -175,7 +183,7 @@ func deleteBlockEntityContainer(c entryContainer, callback func(block *rawparser
 func findDirectoryBlocks(locator blockLocator) []DirectoryBlock {
 	var directoryBlocks []DirectoryBlock
 
-	for _, block := range locator.FindBlocks("Directory") {
+	for _, block := range locator.FindBlocks(Directory) {
 		directoryBlocks = append(directoryBlocks, DirectoryBlock{
 			Block: block,
 		})
@@ -195,7 +203,7 @@ func addDirectiveBlock(b *Block, isRegex bool, match string, begining bool) Dire
 		parameters = append(parameters, match)
 	}
 
-	block := b.AddBlock("Directive", parameters, begining)
+	block := b.AddBlock(string(Directory), parameters, begining)
 
 	return DirectoryBlock{
 		Block: block,

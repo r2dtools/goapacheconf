@@ -3,7 +3,7 @@ package goapacheconf
 import "slices"
 
 type blockLocator interface {
-	FindBlocks(blockName string) []Block
+	FindBlocks(blockName BlockName) []Block
 }
 
 type virtualHostBlockLocator interface {
@@ -13,7 +13,7 @@ type virtualHostBlockLocator interface {
 func findVirtualhostBlocks(locator blockLocator) []VirtualHostBlock {
 	var blocks []VirtualHostBlock
 
-	for _, block := range locator.FindBlocks("VirtualHost") {
+	for _, block := range locator.FindBlocks(VirtualHost) {
 		blocks = append(blocks, VirtualHostBlock{
 			Block: block,
 		})
