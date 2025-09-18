@@ -32,3 +32,15 @@ func TestDirectiveChangeValue(t *testing.T) {
 		require.Equal(t, certPath, directive.GetFirstValue())
 	})
 }
+
+func TestDirectiveIfModules(t *testing.T) {
+	config := getConfig(t)
+
+	vBlocks := config.FindVirtualHostBlocksByServerName("r2dtools.work.gd")
+	require.Len(t, vBlocks, 2)
+
+	vBlock := vBlocks[0]
+	directives := vBlock.FindDirectives(RewriteEngine)
+	require.Len(t, directives, 1)
+	require.Equal(t, []string{"ssl", "proxy_http", "rewrite"}, directives[0].IfModules)
+}

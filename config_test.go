@@ -32,7 +32,7 @@ func TestFindDirectives(t *testing.T) {
 	require.Len(t, directives, 4)
 }
 
-func TestFindblocks(t *testing.T) {
+func TestFindBlocks(t *testing.T) {
 	config := getConfig(t)
 	blocks := config.FindBlocks(VirtualHost)
 	require.Len(t, blocks, 9)
@@ -45,12 +45,10 @@ func TestAddConfigFile(t *testing.T) {
 	configFile, err := config.AddConfigFile(configFilePath)
 	require.Nil(t, err)
 
-	directive := NewDirective("TestDirective", []string{"test"})
-	configFile.AddDirective(directive, true, true)
+	configFile.AddDirective("TestDirective", []string{"test"}, true, true)
 
 	block := configFile.AddBlock("TestBlock", []string{"test"})
-	directive = NewDirective("TestBlockDirective", []string{"test", "directive"})
-	block.AddDirective(directive, false, true)
+	block.AddDirective("TestBlockDirective", []string{"test", "directive"}, false, true)
 
 	err = configFile.Dump()
 	require.Nil(t, err)
@@ -66,6 +64,21 @@ func TestAddConfigFile(t *testing.T) {
 
 	blocks := configFile.FindBlocks("TestBlock")
 	require.Len(t, blocks, 1)
+}
+
+func TestIsDirectiveModulesEnabled(t *testing.T) {
+	config := getConfig(t)
+	blocks := config.FindVirtualHostBlocksByServerName("r2dtools.work.gd")
+	require.Len(t, blocks, 2)
+
+	block := blocks[0]
+	directives := block.FindDirectives(SetSysEnv)
+	require.Len(t, directives, 1)
+
+	directive := directives[0]
+	enabled, disabledModules := config.IsDirectiveModulesEnabled(directive)
+	require.False(t, enabled)
+	require.Equal(t, []string{"sysenv"}, disabledModules)
 }
 
 func getConfig(t *testing.T) *Config {

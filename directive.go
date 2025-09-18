@@ -18,9 +18,12 @@ const (
 	UseCanonicalName   = "UseCanonicalName"
 	Include            = "Include"
 	IncludeOptional    = "IncludeOptional"
+	RewriteEngine      = "RewriteEngine"
+	SetSysEnv          = "SetSysEnv"
 )
 
 type Directive struct {
+	IfModules    []string
 	rawDirective *rawparser.Directive
 	container    entryContainer
 }
@@ -62,23 +65,6 @@ func (d *Directive) setContainer(container entryContainer) {
 	d.container = container
 }
 
-func NewDirective(name string, values []string) Directive {
-	directiveValues := []*rawparser.Value{}
-
-	for _, value := range values {
-		directiveValues = append(directiveValues, &rawparser.Value{Expression: value})
-	}
-
-	rawDirective := &rawparser.Directive{
-		Identifier: name,
-		Values:     directiveValues,
-	}
-
-	return Directive{
-		rawDirective: rawDirective,
-	}
-}
-
 func deleteDirectiveByName(c entryContainer, directiveName string) {
 	deleteDirectiveInEntityContainer(c, func(rawDirective *rawparser.Directive) bool {
 		return rawDirective.Identifier == directiveName
@@ -115,12 +101,25 @@ func deleteDirectiveInEntityContainer(c entryContainer, callback func(directive 
 	setEntries(c, dEntries)
 }
 
-func addDirective(c entryContainer, directive Directive, toBegining bool, endWithNewLine bool) {
+func newDirective(c entryContainer, name string, values []string, ifModules []string, toBegining bool, endWithNewLine bool) Directive {
+	directiveValues := []*rawparser.Value{}
+
+	for _, value := range values {
+		directiveValues = append(directiveValues, &rawparser.Value{Expression: value})
+	}
+
+	rawDirective := &rawparser.Directive{
+		Identifier: name,
+		Values:     directiveValues,
+	}
+	directive := Directive{
+		IfModules:    ifModules,
+		rawDirective: rawDirective,
+	}
+
 	entries := c.GetEntries()
 	directive.setContainer(c)
-	entry := &rawparser.Entry{
-		Directive: directive.rawDirective,
-	}
+	entry := &rawparser.Entry{Directive: rawDirective}
 
 	if endWithNewLine {
 		entry.EndNewLines = []string{"\n"}
@@ -143,4 +142,6 @@ func addDirective(c entryContainer, directive Directive, toBegining bool, endWit
 	}
 
 	setEntries(c, entries)
+
+	return directive
 }

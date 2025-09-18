@@ -45,12 +45,11 @@ func TestVirtualHostBlock(t *testing.T) {
 func TestAddDirectiveInVirtualHostBlock(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		config, block := getFirstVirtualHostBlock(t, "r2dtools.work.gd")
-		directive := NewDirective("test", []string{"test_value"})
-		block.AddDirective(directive, true, true)
+		block.AddDirective("test", []string{"test_value"}, true, true)
 		err := config.Dump()
 		require.Nil(t, err)
 
-		_, directive = getVirtualHostBlockFirstDirective(t, "r2dtools.work.gd", "test")
+		_, directive := getVirtualHostBlockFirstDirective(t, "r2dtools.work.gd", "test")
 		require.Equal(t, "test_value", directive.GetFirstValue())
 	})
 }

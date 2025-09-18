@@ -76,15 +76,11 @@ func (c *Config) ParseFile(configPath string) error {
 
 func (c *Config) GetEnabledModules() map[string]struct{} {
 	if c.enabledModules == nil {
-		moduleDirectives := c.FindDirectives(LoadModule)
+		moduleDirectives := c.FindLoadModuleDirectives()
 		modules := make(map[string]struct{}, len(moduleDirectives))
 
 		for _, moduleDirective := range moduleDirectives {
-			loadModuleDirective := LoadModuleDirective{
-				Directive: moduleDirective,
-			}
-
-			name := loadModuleDirective.GetModuleName()
+			name := moduleDirective.GetModuleName()
 
 			if name != "" {
 				modules[name] = struct{}{}
@@ -106,16 +102,40 @@ func (c *Config) IsModuleEnabled(name string) bool {
 	return ok
 }
 
+func (c *Config) FindLoadModuleDirectives() []LoadModuleDirective {
+	var loadModuleDirectives []LoadModuleDirective
+	directives := c.FindDirectives(LoadModule)
+
+	for _, directive := range directives {
+		loadModuleDirectives = append(loadModuleDirectives, LoadModuleDirective{
+			Directive: directive,
+		})
+	}
+
+	return loadModuleDirectives
+}
+
 func (c *Config) FindVirtualHostBlocks() []VirtualHostBlock {
-	return findVirtualhostBlocks(c)
+	return findVirtualHostBlocks(c)
 }
 
 func (c *Config) FindVirtualHostBlocksByServerName(serverName string) []VirtualHostBlock {
 	return findVirtualHostBlocksByServerName(c, serverName)
 }
 
+func (c *Config) FindIfModuleBlocks() []IfModuleBlock {
+	return findIfModuleBlocks(c)
+}
+
+func (c *Config) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {
+	return findIfModuleBlocksByModuleName(c, moduleName)
+}
+
 func (c *Config) FindBlocks(blockName BlockName) []Block {
-	var blocks []Block
+	var (
+		blocks    []Block
+		ifModules []string
+	)
 
 	keys := slices.Collect(maps.Keys(c.parsedFiles))
 	sort.Strings(keys)
@@ -128,7 +148,7 @@ func (c *Config) FindBlocks(blockName BlockName) []Block {
 		}
 
 		for _, entry := range tree.Entries {
-			blocks = append(blocks, c.findBlocksRecursively(blockName, key, tree, entry, false)...)
+			blocks = append(blocks, c.findBlocksRecursively(blockName, key, tree, entry, ifModules, false)...)
 		}
 	}
 
@@ -136,7 +156,10 @@ func (c *Config) FindBlocks(blockName BlockName) []Block {
 }
 
 func (c *Config) FindDirectives(directiveName DirectiveName) []Directive {
-	var directives []Directive
+	var (
+		directives []Directive
+		ifModules  []string
+	)
 
 	keys := slices.Collect(maps.Keys(c.parsedFiles))
 	sort.Strings(keys)
@@ -151,7 +174,7 @@ func (c *Config) FindDirectives(directiveName DirectiveName) []Directive {
 		for _, entry := range tree.GetEntries() {
 			directives = append(
 				directives,
-				c.findDirectivesRecursively(directiveName, tree, entry, false)...,
+				c.findDirectivesRecursively(directiveName, key, tree, entry, ifModules, false)...,
 			)
 		}
 	}
@@ -173,10 +196,38 @@ func (c *Config) AddConfigFile(filePath string) (*ConfigFile, error) {
 	return nil, fmt.Errorf("file %s already exists", filePath)
 }
 
+func (c *Config) IsBlockModulesEnabled(block Block) (enabled bool, disabledModules []string) {
+	enabled = true
+
+	for _, name := range block.IfModules {
+		if !c.IsModuleEnabled(name) {
+			enabled = false
+			disabledModules = append(disabledModules, name)
+		}
+	}
+
+	return
+}
+
+func (c *Config) IsDirectiveModulesEnabled(directive Directive) (enabled bool, disabledModules []string) {
+	enabled = true
+
+	for _, name := range directive.IfModules {
+		if !c.IsModuleEnabled(name) {
+			enabled = false
+			disabledModules = append(disabledModules, name)
+		}
+	}
+
+	return
+}
+
 func (c *Config) findDirectivesRecursively(
 	directiveName DirectiveName,
+	path string,
 	container entryContainer,
 	entry *rawparser.Entry,
+	ifModules []string,
 	withInclude bool,
 ) []Directive {
 	var directives []Directive
@@ -204,7 +255,7 @@ func (c *Config) findDirectivesRecursively(
 				for _, entry := range includeConfig.GetEntries() {
 					directives = append(
 						directives,
-						c.findDirectivesRecursively(directiveName, includeConfig, entry, withInclude)...,
+						c.findDirectivesRecursively(directiveName, path, includeConfig, entry, ifModules, withInclude)...,
 					)
 				}
 			}
@@ -212,6 +263,7 @@ func (c *Config) findDirectivesRecursively(
 
 		if identifier == string(directiveName) {
 			directives = append(directives, Directive{
+				IfModules:    ifModules,
 				rawDirective: directive,
 				container:    container,
 			})
@@ -224,10 +276,24 @@ func (c *Config) findDirectivesRecursively(
 		return directives
 	}
 
+	block := Block{
+		FilePath:  path,
+		IfModules: ifModules,
+		config:    c,
+		container: container,
+		rawBlock:  blockDirective,
+		rawDumper: &rawdumper.RawDumper{},
+	}
+
+	if blockDirective.Identifier == string(IfModule) {
+		ifModuleBlock := IfModuleBlock{Block: block}
+		ifModules = append(ifModules, ifModuleBlock.GetModuleName())
+	}
+
 	for _, bEntry := range blockDirective.GetEntries() {
 		directives = append(
 			directives,
-			c.findDirectivesRecursively(directiveName, blockDirective, bEntry, withInclude)...,
+			c.findDirectivesRecursively(directiveName, path, blockDirective, bEntry, ifModules, withInclude)...,
 		)
 	}
 
@@ -239,6 +305,7 @@ func (c *Config) findBlocksRecursively(
 	path string,
 	container entryContainer,
 	entry *rawparser.Entry,
+	ifModules []string,
 	withInclude bool,
 ) []Block {
 	var blocks []Block
@@ -263,7 +330,7 @@ func (c *Config) findBlocksRecursively(
 			for _, entry := range includeConfig.Entries {
 				blocks = append(
 					blocks,
-					c.findBlocksRecursively(blockName, includePath, includeConfig, entry, withInclude)...,
+					c.findBlocksRecursively(blockName, includePath, includeConfig, entry, ifModules, withInclude)...,
 				)
 			}
 		}
@@ -278,6 +345,7 @@ func (c *Config) findBlocksRecursively(
 
 	block := Block{
 		FilePath:  path,
+		IfModules: ifModules,
 		config:    c,
 		container: container,
 		rawBlock:  blockDirective,
@@ -287,11 +355,16 @@ func (c *Config) findBlocksRecursively(
 	if blockDirective.Identifier == string(blockName) {
 		blocks = append(blocks, block)
 	} else {
+		if blockDirective.Identifier == string(IfModule) {
+			ifModuleBlock := IfModuleBlock{Block: block}
+			ifModules = append(ifModules, ifModuleBlock.GetModuleName())
+		}
+
 		// blocks can be nested
 		for _, blockEntry := range blockDirective.GetEntries() {
 			blocks = append(
 				blocks,
-				c.findBlocksRecursively(blockName, path, blockDirective, blockEntry, withInclude)...,
+				c.findBlocksRecursively(blockName, path, blockDirective, blockEntry, ifModules, withInclude)...,
 			)
 		}
 	}

@@ -13,10 +13,12 @@ const (
 	VirtualHost BlockName = "VirtualHost"
 	Directory   BlockName = "Directory"
 	IfModule    BlockName = "IfModule"
+	Proxy       BlockName = "Proxy"
 )
 
 type Block struct {
 	FilePath  string
+	IfModules []string
 	config    *Config
 	container entryContainer
 	rawBlock  *rawparser.BlockDirective
@@ -39,7 +41,7 @@ func (b *Block) FindDirectives(directiveName DirectiveName) []Directive {
 	var directives []Directive
 
 	for _, entry := range b.rawBlock.GetEntries() {
-		directives = append(directives, b.config.findDirectivesRecursively(directiveName, b.rawBlock, entry, true)...)
+		directives = append(directives, b.config.findDirectivesRecursively(directiveName, b.FilePath, b.rawBlock, entry, b.IfModules, true)...)
 	}
 
 	return directives
@@ -49,14 +51,29 @@ func (b *Block) FindBlocks(blockName BlockName) []Block {
 	var blocks []Block
 
 	for _, entry := range b.rawBlock.GetEntries() {
-		blocks = append(blocks, b.config.findBlocksRecursively(blockName, b.FilePath, b.rawBlock, entry, true)...)
+		blocks = append(blocks, b.config.findBlocksRecursively(blockName, b.FilePath, b.rawBlock, entry, b.IfModules, true)...)
 	}
 
 	return blocks
 }
 
-func (b *Block) AddDirective(directive Directive, begining bool, endWithNewLine bool) {
-	addDirective(b.rawBlock, directive, begining, endWithNewLine)
+func (b *Block) FindIfModuleBlocks() []IfModuleBlock {
+	return findIfModuleBlocks(b)
+}
+
+func (b *Block) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {
+	return findIfModuleBlocksByModuleName(b, moduleName)
+}
+
+func (b *Block) AddDirective(name string, values []string, begining bool, endWithNewLine bool) Directive {
+	return newDirective(
+		b.rawBlock,
+		name,
+		values,
+		b.IfModules,
+		begining,
+		endWithNewLine,
+	)
 }
 
 func (b *Block) DeleteDirective(directive Directive) {
@@ -76,10 +93,17 @@ func (b *Block) Dump() string {
 }
 
 func (b *Block) AddBlock(name string, parameters []string, begining bool) Block {
-	return newBlock(b.rawBlock, b.config, name, parameters, begining)
+	return newBlock(
+		b.rawBlock,
+		b.config,
+		name,
+		parameters,
+		b.IfModules,
+		begining,
+	)
 }
 
-func newBlock(c entryContainer, config *Config, name string, parameters []string, begining bool) Block {
+func newBlock(c entryContainer, config *Config, name string, parameters []string, ifModules []string, begining bool) Block {
 	rawBlock := &rawparser.BlockDirective{
 		Identifier: name,
 		Content:    &rawparser.BlockContent{},
@@ -87,6 +111,7 @@ func newBlock(c entryContainer, config *Config, name string, parameters []string
 	rawBlock.SetParameters(parameters)
 
 	block := Block{
+		IfModules: ifModules,
 		config:    config,
 		container: c,
 		rawBlock:  rawBlock,

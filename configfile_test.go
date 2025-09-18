@@ -29,8 +29,7 @@ func TestDeleteDirectiveByNameInConfigFile(t *testing.T) {
 func TestAddDirectiveInConfigFile(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		configFile := getConfigFile(t, r2dtoolsConfigFileName)
-		directive := NewDirective("test", []string{"test_value"})
-		configFile.AddDirective(directive, true, true)
+		configFile.AddDirective("test", []string{"test_value"}, true, true)
 		err := configFile.Dump()
 		require.Nil(t, err)
 

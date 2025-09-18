@@ -13,31 +13,45 @@ type ConfigFile struct {
 }
 
 func (c *ConfigFile) FindDirectives(directiveName DirectiveName) []Directive {
-	var directives []Directive
+	var (
+		directives []Directive
+		ifModules  []string
+	)
 
 	for _, entry := range c.configFile.GetEntries() {
-		directives = append(directives, c.config.findDirectivesRecursively(directiveName, c.configFile, entry, true)...)
+		directives = append(directives, c.config.findDirectivesRecursively(directiveName, c.FilePath, c.configFile, entry, ifModules, true)...)
 	}
 
 	return directives
 }
 
 func (c *ConfigFile) FindBlocks(blockName BlockName) []Block {
-	var blocks []Block
+	var (
+		blocks    []Block
+		ifModules []string
+	)
 
 	for _, entry := range c.configFile.GetEntries() {
-		blocks = append(blocks, c.config.findBlocksRecursively(blockName, c.FilePath, c.configFile, entry, true)...)
+		blocks = append(blocks, c.config.findBlocksRecursively(blockName, c.FilePath, c.configFile, entry, ifModules, true)...)
 	}
 
 	return blocks
 }
 
 func (c *ConfigFile) FindVirtualHostBlocks() []VirtualHostBlock {
-	return findVirtualhostBlocks(c)
+	return findVirtualHostBlocks(c)
 }
 
 func (c *ConfigFile) FindVirtualHostBlocksByServerName(serverName string) []VirtualHostBlock {
 	return findVirtualHostBlocksByServerName(c, serverName)
+}
+
+func (c *ConfigFile) FindIfModuleBlocks() []IfModuleBlock {
+	return findIfModuleBlocks(c)
+}
+
+func (c *ConfigFile) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {
+	return findIfModuleBlocksByModuleName(c, moduleName)
 }
 
 func (c *ConfigFile) DeleteDirective(directive Directive) {
@@ -48,8 +62,8 @@ func (c *ConfigFile) DeleteDirectiveByName(directiveName string) {
 	deleteDirectiveByName(c.configFile, directiveName)
 }
 
-func (c *ConfigFile) AddDirective(directive Directive, begining bool, endWithNewLine bool) {
-	addDirective(c.configFile, directive, begining, endWithNewLine)
+func (c *ConfigFile) AddDirective(name string, values []string, begining bool, endWithNewLine bool) Directive {
+	return newDirective(c.configFile, name, values, nil, begining, endWithNewLine)
 }
 
 func (c *ConfigFile) DeleteVirtualHostBlock(virtualHostBlock VirtualHostBlock) {
@@ -57,7 +71,7 @@ func (c *ConfigFile) DeleteVirtualHostBlock(virtualHostBlock VirtualHostBlock) {
 }
 
 func (c *ConfigFile) AddBlock(name string, parameters []string) Block {
-	return newBlock(c.configFile, c.config, name, parameters, false)
+	return newBlock(c.configFile, c.config, name, parameters, nil, false)
 }
 
 func (c *ConfigFile) Dump() error {
