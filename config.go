@@ -530,7 +530,21 @@ func GetConfig(serverRootPath, configFilePath string) (*Config, error) {
 	}
 
 	if configFilePath == "" {
-		configFilePath = path.Join(serverRootPath, "apache2.conf")
+		configFiles := []string{"apache2.conf", "httpd.conf"}
+
+		for _, configFile := range configFiles {
+			cFilePath := path.Join(serverRootPath, configFile)
+
+			if com.IsFile(cFilePath) {
+				configFilePath = cFilePath
+
+				break
+			}
+		}
+
+		if configFilePath == "" {
+			return nil, fmt.Errorf("could not find config file in directory '%s'", serverRootPath)
+		}
 	}
 
 	if !filepath.IsAbs(configFilePath) {
