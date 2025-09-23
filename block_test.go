@@ -39,3 +39,38 @@ func TestFindIfModuleBlocks(t *testing.T) {
 	blocks = vBlock.FindIfModuleBlocksByModuleName("rewrite")
 	require.Len(t, blocks, 1)
 }
+
+func TestAddDirectiveToBlock(t *testing.T) {
+	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
+		configFile := getConfigFile(t, r2dtoolsConfigFileName)
+		vBlocks := configFile.FindVirtualHostBlocksByServerName("r2dtools.work.gd")
+		require.Len(t, vBlocks, 2)
+
+		vBlock := vBlocks[0]
+		vBlock.AddDirective("Test", []string{"test"}, true, true)
+		err := configFile.Dump()
+		require.Nil(t, err)
+
+		configFile = getConfigFile(t, r2dtoolsConfigFileName)
+		vBlocks = configFile.FindVirtualHostBlocksByServerName("r2dtools.work.gd")
+		require.Len(t, vBlocks, 2)
+		vBlock = vBlocks[0]
+
+		directives := vBlock.FindDirectives("Test")
+		require.Len(t, directives, 1)
+		require.Equal(t, []string{"test"}, directives[0].GetValues())
+	})
+}
+
+func TestDeleteDirectiveFromBlock(t *testing.T) {
+	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
+		config, block := getFirstVirtualHostBlock(t, "r2dtools.work.gd")
+		block.DeleteDirectiveByName(UseCanonicalName)
+		err := config.Dump()
+		require.Nil(t, err)
+
+		_, block = getFirstVirtualHostBlock(t, "r2dtools.work.gd")
+		directives := block.FindDirectives(UseCanonicalName)
+		require.Empty(t, directives)
+	})
+}
