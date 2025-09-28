@@ -182,6 +182,10 @@ func (c *Config) FindDirectives(directiveName DirectiveName) []Directive {
 	return directives
 }
 
+func (c *Config) FindRewriteRuleDirectives() []RewriteRuleDirective {
+	return findRewriteRuleDirectives(c)
+}
+
 func (c *Config) AddConfigFile(filePath string) (*ConfigFile, error) {
 	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
 		configFile := ConfigFile{

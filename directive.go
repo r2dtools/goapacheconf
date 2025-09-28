@@ -22,6 +22,8 @@ const (
 	IncludeOptional         = "IncludeOptional"
 	RewriteEngine           = "RewriteEngine"
 	SetSysEnv               = "SetSysEnv"
+	RewriteCond             = "RewriteCond"
+	RewriteRule             = "RewriteRule"
 )
 
 type Directive struct {

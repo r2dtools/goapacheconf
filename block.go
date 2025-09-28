@@ -47,6 +47,10 @@ func (b *Block) FindDirectives(directiveName DirectiveName) []Directive {
 	return directives
 }
 
+func (b *Block) FindRewriteRuleDirectives() []RewriteRuleDirective {
+	return findRewriteRuleDirectives(b)
+}
+
 func (b *Block) FindBlocks(blockName BlockName) []Block {
 	var blocks []Block
 

@@ -25,6 +25,10 @@ func (c *ConfigFile) FindDirectives(directiveName DirectiveName) []Directive {
 	return directives
 }
 
+func (c *ConfigFile) FindRewriteRuleDirectives() []RewriteRuleDirective {
+	return findRewriteRuleDirectives(c)
+}
+
 func (c *ConfigFile) FindBlocks(blockName BlockName) []Block {
 	var (
 		blocks    []Block
