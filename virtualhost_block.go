@@ -66,6 +66,16 @@ func (s *VirtualHostBlock) GetAddresses() []Address {
 	return addresses
 }
 
+func (s *VirtualHostBlock) SetAddresses(addresses []Address) {
+	var parameters []string
+
+	for _, address := range addresses {
+		parameters = append(parameters, address.ToString())
+	}
+
+	s.SetParameters(parameters)
+}
+
 func (s *VirtualHostBlock) HasSSL() bool {
 	addresses := s.GetAddresses()
 
