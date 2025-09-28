@@ -9,17 +9,18 @@ import (
 type DirectiveName string
 
 const (
-	LoadModule         = "LoadModule"
-	ServerName         = "ServerName"
-	ServerAlias        = "ServerAlias"
-	DocumentRoot       = "DocumentRoot"
-	SSLEngine          = "SSLEngine"
-	SSLCertificateFile = "SSLCertificateFile"
-	UseCanonicalName   = "UseCanonicalName"
-	Include            = "Include"
-	IncludeOptional    = "IncludeOptional"
-	RewriteEngine      = "RewriteEngine"
-	SetSysEnv          = "SetSysEnv"
+	LoadModule            = "LoadModule"
+	ServerName            = "ServerName"
+	ServerAlias           = "ServerAlias"
+	DocumentRoot          = "DocumentRoot"
+	SSLEngine             = "SSLEngine"
+	SSLCertificateFile    = "SSLCertificateFile"
+	SSLCertificateKeyFile = "SSLCertificateKeyFile"
+	UseCanonicalName      = "UseCanonicalName"
+	Include               = "Include"
+	IncludeOptional       = "IncludeOptional"
+	RewriteEngine         = "RewriteEngine"
+	SetSysEnv             = "SetSysEnv"
 )
 
 type Directive struct {
