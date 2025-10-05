@@ -24,6 +24,7 @@ const (
 	SetSysEnv               = "SetSysEnv"
 	RewriteCond             = "RewriteCond"
 	RewriteRule             = "RewriteRule"
+	ListenPort              = "Listen"
 )
 
 type Directive struct {
