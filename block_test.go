@@ -48,7 +48,7 @@ func TestAddDirectiveToBlock(t *testing.T) {
 
 		vBlock := vBlocks[0]
 		vBlock.AddDirective("Test", []string{"test"}, true, true)
-		err := configFile.Dump()
+		_, err := configFile.Dump()
 		require.Nil(t, err)
 
 		configFile = getConfigFile(t, r2dtoolsConfigFileName)

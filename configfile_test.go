@@ -17,7 +17,7 @@ func TestAddDirectiveInConfigFile(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		configFile := getConfigFile(t, r2dtoolsConfigFileName)
 		configFile.AddDirective("test", []string{"test_value"}, true, true)
-		err := configFile.Dump()
+		_, err := configFile.Dump()
 		require.Nil(t, err)
 
 		configFile = getConfigFile(t, r2dtoolsConfigFileName)
@@ -35,7 +35,7 @@ func TestDeleteBlock(t *testing.T) {
 		block := blocks[0]
 
 		configFile.DeleteVirtualHostBlock(block)
-		err := configFile.Dump()
+		_, err := configFile.Dump()
 		assert.Nil(t, err)
 
 		configFile = getConfigFile(t, r2dtoolsConfigFileName)

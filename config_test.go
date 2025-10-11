@@ -50,7 +50,7 @@ func TestAddConfigFile(t *testing.T) {
 	block := configFile.AddBlock("TestBlock", []string{"test"})
 	block.AddDirective("TestBlockDirective", []string{"test", "directive"}, false, true)
 
-	err = configFile.Dump()
+	_, err = configFile.Dump()
 	require.Nil(t, err)
 	defer os.Remove(configFilePath)
 

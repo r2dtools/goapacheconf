@@ -78,17 +78,17 @@ func (c *ConfigFile) AddBlock(name string, parameters []string) Block {
 	return newBlock(c.configFile, c.config, name, parameters, nil, false)
 }
 
-func (c *ConfigFile) Dump() error {
+func (c *ConfigFile) Dump() (string, error) {
 	content, err := c.config.rawDumper.Dump(c.configFile)
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	file, err := os.OpenFile(c.FilePath, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	defer file.Close()
@@ -96,8 +96,8 @@ func (c *ConfigFile) Dump() error {
 	_, err = file.WriteString(content)
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return content, nil
 }
