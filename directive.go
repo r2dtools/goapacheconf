@@ -2,6 +2,7 @@ package goapacheconf
 
 import (
 	"slices"
+	"strings"
 
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 )
@@ -49,6 +50,10 @@ func (d *Directive) GetFirstValue() string {
 	}
 
 	return values[0]
+}
+
+func (d *Directive) GetValuesAsString() string {
+	return strings.Join(d.GetValues(), " ")
 }
 
 func (d *Directive) AddValue(expression string) {
