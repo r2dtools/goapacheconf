@@ -145,3 +145,7 @@ func (v *VirtualHostBlock) AddAliasDirective(fromLocation, toLocation string) Al
 
 	return AliasDirective{Directive: directive}
 }
+
+func (v *VirtualHostBlock) DeleteAliasDirective(aliasDirective AliasDirective) {
+	deleteDirective(v.rawBlock, aliasDirective.Directive)
+}

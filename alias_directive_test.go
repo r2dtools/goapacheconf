@@ -41,3 +41,23 @@ func TestAddAliasDirective(t *testing.T) {
 		require.NotNil(t, newAliasDirective)
 	})
 }
+
+func TestDeleteAliasDirective(t *testing.T) {
+	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
+		configFile := getConfigFile(t, r2dtoolsConfigFileName)
+		directives := configFile.FindAlliasDirectives()
+		require.Len(t, directives, 8)
+
+		virtualHostBlocks := configFile.FindVirtualHostBlocks()
+		require.Len(t, virtualHostBlocks, 2)
+
+		virtualHostBlock := virtualHostBlocks[0]
+		virtualHostBlock.DeleteAliasDirective(directives[0])
+		_, err := configFile.Dump()
+		require.Nil(t, err)
+
+		configFile = getConfigFile(t, r2dtoolsConfigFileName)
+		directives = configFile.FindAlliasDirectives()
+		require.Len(t, directives, 7)
+	})
+}

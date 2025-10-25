@@ -88,6 +88,10 @@ func (c *ConfigFile) AddAliasDirective(fromLocation, toLocation string) AliasDir
 	return AliasDirective{Directive: directive}
 }
 
+func (c *ConfigFile) DeleteAliasDirective(aliasDirective AliasDirective) {
+	deleteDirective(c.configFile, aliasDirective.Directive)
+}
+
 func (c *ConfigFile) Dump() (string, error) {
 	content, err := c.config.rawDumper.Dump(c.configFile)
 
