@@ -103,20 +103,11 @@ func (c *Config) IsModuleEnabled(name string) bool {
 }
 
 func (c *Config) FindLoadModuleDirectives() []LoadModuleDirective {
-	var loadModuleDirectives []LoadModuleDirective
-	directives := c.FindDirectives(LoadModule)
-
-	for _, directive := range directives {
-		loadModuleDirectives = append(loadModuleDirectives, LoadModuleDirective{
-			Directive: directive,
-		})
-	}
-
-	return loadModuleDirectives
+	return findDirectives[LoadModuleDirective](c, LoadModule)
 }
 
 func (c *Config) FindVirtualHostBlocks() []VirtualHostBlock {
-	return findVirtualHostBlocks(c)
+	return findBlocks[VirtualHostBlock](c, VirtualHost)
 }
 
 func (c *Config) FindVirtualHostBlocksByServerName(serverName string) []VirtualHostBlock {
@@ -124,7 +115,7 @@ func (c *Config) FindVirtualHostBlocksByServerName(serverName string) []VirtualH
 }
 
 func (c *Config) FindIfModuleBlocks() []IfModuleBlock {
-	return findIfModuleBlocks(c)
+	return findBlocks[IfModuleBlock](c, IfModule)
 }
 
 func (c *Config) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {
@@ -183,7 +174,11 @@ func (c *Config) FindDirectives(directiveName DirectiveName) []Directive {
 }
 
 func (c *Config) FindRewriteRuleDirectives() []RewriteRuleDirective {
-	return findRewriteRuleDirectives(c)
+	return findDirectives[RewriteRuleDirective](c, RewriteRule)
+}
+
+func (c *Config) FindAliasDirectives() []AliasDirective {
+	return findDirectives[AliasDirective](c, Alias)
 }
 
 func (c *Config) AddConfigFile(filePath string) (*ConfigFile, error) {

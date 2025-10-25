@@ -33,6 +33,16 @@ func (b *Block) GetParameters() []string {
 	return b.rawBlock.GetParametersExpressions()
 }
 
+func (b *Block) GetFirstParameter() string {
+	parameters := b.GetParameters()
+
+	if len(parameters) > 0 {
+		return parameters[0]
+	}
+
+	return ""
+}
+
 func (b *Block) SetParameters(parameters []string) {
 	b.rawBlock.SetParameters(parameters)
 }
@@ -48,7 +58,7 @@ func (b *Block) FindDirectives(directiveName DirectiveName) []Directive {
 }
 
 func (b *Block) FindRewriteRuleDirectives() []RewriteRuleDirective {
-	return findRewriteRuleDirectives(b)
+	return findDirectives[RewriteRuleDirective](b, RewriteRule)
 }
 
 func (b *Block) FindBlocks(blockName BlockName) []Block {
@@ -62,7 +72,7 @@ func (b *Block) FindBlocks(blockName BlockName) []Block {
 }
 
 func (b *Block) FindIfModuleBlocks() []IfModuleBlock {
-	return findIfModuleBlocks(b)
+	return findBlocks[IfModuleBlock](b, IfModule)
 }
 
 func (b *Block) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {
@@ -221,7 +231,7 @@ func findDirectoryBlocks(locator blockLocator) []DirectoryBlock {
 	return directoryBlocks
 }
 
-func addDirectiveBlock(b *Block, isRegex bool, match string, begining bool) DirectoryBlock {
+func addDirectoryBlock(b *Block, isRegex bool, match string, begining bool) DirectoryBlock {
 	parameters := []string{}
 
 	if isRegex {

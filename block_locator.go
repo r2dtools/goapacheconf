@@ -2,6 +2,10 @@ package goapacheconf
 
 import "slices"
 
+type BlockUnion interface {
+	VirtualHostBlock | IfModuleBlock | LocationBlock
+}
+
 type blockLocator interface {
 	FindBlocks(blockName BlockName) []Block
 }
@@ -14,13 +18,11 @@ type ifModuleBlockLocator interface {
 	FindIfModuleBlocks() []IfModuleBlock
 }
 
-func findVirtualHostBlocks(locator blockLocator) []VirtualHostBlock {
-	var blocks []VirtualHostBlock
+func findBlocks[T BlockUnion](locator blockLocator, name BlockName) []T {
+	var blocks []T
 
-	for _, block := range locator.FindBlocks(VirtualHost) {
-		blocks = append(blocks, VirtualHostBlock{
-			Block: block,
-		})
+	for _, block := range locator.FindBlocks(name) {
+		blocks = append(blocks, T{Block: block})
 	}
 
 	return blocks
@@ -35,18 +37,6 @@ func findVirtualHostBlocksByServerName(locator virtualHostBlockLocator, serverNa
 		if slices.Contains(serverNames, serverName) {
 			blocks = append(blocks, block)
 		}
-	}
-
-	return blocks
-}
-
-func findIfModuleBlocks(locator blockLocator) []IfModuleBlock {
-	var blocks []IfModuleBlock
-
-	for _, block := range locator.FindBlocks(IfModule) {
-		blocks = append(blocks, IfModuleBlock{
-			Block: block,
-		})
 	}
 
 	return blocks

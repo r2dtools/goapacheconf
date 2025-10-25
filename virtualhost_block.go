@@ -129,9 +129,19 @@ func (v *VirtualHostBlock) FindDirectoryBlocks() []DirectoryBlock {
 }
 
 func (v *VirtualHostBlock) AddDirectoryBlock(isRegex bool, match string, begining bool) DirectoryBlock {
-	return addDirectiveBlock(&v.Block, isRegex, match, begining)
+	return addDirectoryBlock(&v.Block, isRegex, match, begining)
 }
 
-func (v *DirectoryBlock) DeleteDirectiveBlock(directiveBlock DirectoryBlock) {
-	deleteBlock(v.rawBlock, directiveBlock.Block)
+func (v *DirectoryBlock) DeleteDirectoryBlock(directoryBlock DirectoryBlock) {
+	deleteBlock(v.rawBlock, directoryBlock.Block)
+}
+
+func (v *VirtualHostBlock) FindAlliasDirectives() []AliasDirective {
+	return findDirectives[AliasDirective](v, Alias)
+}
+
+func (v *VirtualHostBlock) AddAliasDirective(fromLocation, toLocation string) AliasDirective {
+	directive := v.AddDirective(Alias, []string{fromLocation, toLocation}, false, true)
+
+	return AliasDirective{Directive: directive}
 }

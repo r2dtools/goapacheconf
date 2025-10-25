@@ -26,6 +26,7 @@ const (
 	RewriteCond             = "RewriteCond"
 	RewriteRule             = "RewriteRule"
 	ListenPort              = "Listen"
+	Alias                   = "Alias"
 )
 
 type Directive struct {

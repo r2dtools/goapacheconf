@@ -26,7 +26,11 @@ func (c *ConfigFile) FindDirectives(directiveName DirectiveName) []Directive {
 }
 
 func (c *ConfigFile) FindRewriteRuleDirectives() []RewriteRuleDirective {
-	return findRewriteRuleDirectives(c)
+	return findDirectives[RewriteRuleDirective](c, RewriteRule)
+}
+
+func (c *ConfigFile) FindAlliasDirectives() []AliasDirective {
+	return findDirectives[AliasDirective](c, Alias)
 }
 
 func (c *ConfigFile) FindBlocks(blockName BlockName) []Block {
@@ -43,7 +47,7 @@ func (c *ConfigFile) FindBlocks(blockName BlockName) []Block {
 }
 
 func (c *ConfigFile) FindVirtualHostBlocks() []VirtualHostBlock {
-	return findVirtualHostBlocks(c)
+	return findBlocks[VirtualHostBlock](c, VirtualHost)
 }
 
 func (c *ConfigFile) FindVirtualHostBlocksByServerName(serverName string) []VirtualHostBlock {
@@ -51,7 +55,7 @@ func (c *ConfigFile) FindVirtualHostBlocksByServerName(serverName string) []Virt
 }
 
 func (c *ConfigFile) FindIfModuleBlocks() []IfModuleBlock {
-	return findIfModuleBlocks(c)
+	return findBlocks[IfModuleBlock](c, IfModule)
 }
 
 func (c *ConfigFile) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {
@@ -76,6 +80,12 @@ func (c *ConfigFile) DeleteVirtualHostBlock(virtualHostBlock VirtualHostBlock) {
 
 func (c *ConfigFile) AddBlock(name string, parameters []string) Block {
 	return newBlock(c.configFile, c.config, name, parameters, nil, false)
+}
+
+func (c *ConfigFile) AddAliasDirective(fromLocation, toLocation string) AliasDirective {
+	directive := c.AddDirective(Alias, []string{fromLocation, toLocation}, false, true)
+
+	return AliasDirective{Directive: directive}
 }
 
 func (c *ConfigFile) Dump() (string, error) {

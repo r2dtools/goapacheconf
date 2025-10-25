@@ -35,7 +35,7 @@ func (b *IfModuleBlock) FindBlocks(blockName BlockName) []Block {
 }
 
 func (b *IfModuleBlock) FindIfModuleBlocks() []IfModuleBlock {
-	return findIfModuleBlocks(b)
+	return findBlocks[IfModuleBlock](b, IfModule)
 }
 
 func (b *IfModuleBlock) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlock {

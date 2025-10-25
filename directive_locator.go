@@ -1,16 +1,18 @@
 package goapacheconf
 
+type DirectiveUnion interface {
+	RewriteRuleDirective | AliasDirective | LoadModuleDirective
+}
+
 type directiveLocator interface {
 	FindDirectives(directiveName DirectiveName) []Directive
 }
 
-func findRewriteRuleDirectives(locator directiveLocator) []RewriteRuleDirective {
-	var directives []RewriteRuleDirective
+func findDirectives[T DirectiveUnion](locator directiveLocator, name DirectiveName) []T {
+	var directives []T
 
-	for _, directive := range locator.FindDirectives(RewriteRule) {
-		directives = append(directives, RewriteRuleDirective{
-			Directive: directive,
-		})
+	for _, directive := range locator.FindDirectives(name) {
+		directives = append(directives, T{Directive: directive})
 	}
 
 	return directives
