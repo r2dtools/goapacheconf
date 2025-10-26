@@ -7,165 +7,165 @@
 #/var/www/vhosts/system/r2dtools.work.gd/conf/vhost_ssl.conf
 <IfModule mod_ssl.c >
 
-    <VirtualHost 127.0.0.1:7081 >
-        ServerName "r2dtools.work.gd"
-        ServerAlias "www.r2dtools.work.gd"
-        ServerAlias "ipv4.r2dtools.work.gd"
-        UseCanonicalName Off
+	<VirtualHost 127.0.0.1:7081 >
+		ServerName "r2dtools.work.gd"
+		ServerAlias "www.r2dtools.work.gd"
+		ServerAlias "ipv4.r2dtools.work.gd"
+		UseCanonicalName Off
 
-        CustomLog /var/www/vhosts/system/r2dtools.work.gd/logs/access_ssl_log plesklog
-        ErrorLog "/var/www/vhosts/system/r2dtools.work.gd/logs/error_log"
+		CustomLog /var/www/vhosts/system/r2dtools.work.gd/logs/access_ssl_log plesklog
+		ErrorLog "/var/www/vhosts/system/r2dtools.work.gd/logs/error_log"
 
-        # mailconfig
-        <IfModule mod_proxy_http.c >
-            <IfModule mod_rewrite.c >
-                RewriteEngine On
-                RewriteCond %{REQUEST_URI} ^/autodiscover/autodiscover\.xml$ [NC,OR]
-                RewriteCond %{REQUEST_URI} ^(/\.well-known/autoconfig)?/mail/config\-v1\.1\.xml$ [NC,OR]
-                RewriteCond %{REQUEST_URI} ^/email\.mobileconfig$ [NC]
-                RewriteRule ^(.*)$ http://127.0.0.1:8880/mailconfig/ [P,QSA,L,E=REQUEST_URI:%{REQUEST_URI},E=HOST:%{HTTP_HOST}]
-            </IfModule>
-            <Proxy "http://127.0.0.1:8880/mailconfig/" >
-                RequestHeader set X-Host "%{HOST}e"
-                RequestHeader set X-Request-URI "%{REQUEST_URI}e"
-            </Proxy>
-        </IfModule>
-        # mailconfig
+		# mailconfig
+		<IfModule mod_proxy_http.c >
+			<IfModule mod_rewrite.c >
+				RewriteEngine On
+				RewriteCond %{REQUEST_URI} ^/autodiscover/autodiscover\.xml$ [NC,OR]
+				RewriteCond %{REQUEST_URI} ^(/\.well-known/autoconfig)?/mail/config\-v1\.1\.xml$ [NC,OR]
+				RewriteCond %{REQUEST_URI} ^/email\.mobileconfig$ [NC]
+				RewriteRule ^(.*)$ http://127.0.0.1:8880/mailconfig/ [P,QSA,L,E=REQUEST_URI:%{REQUEST_URI},E=HOST:%{HTTP_HOST}]
+			</IfModule>
+			<Proxy "http://127.0.0.1:8880/mailconfig/" >
+				RequestHeader set X-Host "%{HOST}e"
+				RequestHeader set X-Request-URI "%{REQUEST_URI}e"
+			</Proxy>
+		</IfModule>
+		# mailconfig
 
-        DocumentRoot "/var/www/vhosts/r2dtools.work.gd/httpdocs"
+		DocumentRoot "/var/www/vhosts/r2dtools.work.gd/httpdocs"
 
-        <IfModule mod_suexec.c >
-            SuexecUserGroup "r2dtools.work.gd_bc8fzauq68v" "psacln"
-        </IfModule>
+		<IfModule mod_suexec.c >
+			SuexecUserGroup "r2dtools.work.gd_bc8fzauq68v" "psacln"
+		</IfModule>
 
-        <IfModule mod_userdir.c >
-            UserDir "/var/www/vhosts/r2dtools.work.gd/web_users/*"
-        </IfModule>
+		<IfModule mod_userdir.c >
+			UserDir "/var/www/vhosts/r2dtools.work.gd/web_users/*"
+		</IfModule>
 
-        <IfModule mod_sysenv.c >
-            SetSysEnv PP_VHOST_ID "08fc3720-4f9b-4648-b1b2-4362a6319f4f"
-        </IfModule>
+		<IfModule mod_sysenv.c >
+			SetSysEnv PP_VHOST_ID "08fc3720-4f9b-4648-b1b2-4362a6319f4f"
+		</IfModule>
 
-        Alias "/plesk-stat" "/var/www/vhosts/system/r2dtools.work.gd/statistics"
-        <Location /plesk-stat/ >
-            Options +Indexes
-        </Location>
-        <Location /plesk-stat/logs/ >
-            Require valid-user
-        </Location>
-        Alias /webstat /var/www/vhosts/system/r2dtools.work.gd/statistics/webstat
-        Alias /webstat-ssl /var/www/vhosts/system/r2dtools.work.gd/statistics/webstat-ssl
-        Alias /ftpstat /var/www/vhosts/system/r2dtools.work.gd/statistics/ftpstat
-        Alias /anon_ftpstat /var/www/vhosts/system/r2dtools.work.gd/statistics/anon_ftpstat
-        Alias /awstats-icon /usr/share/awstats/icon
+		Alias "/plesk-stat" "/var/www/vhosts/system/r2dtools.work.gd/statistics"
+		<Location /plesk-stat/ >
+			Options +Indexes
+		</Location>
+		<Location /plesk-stat/logs/ >
+			Require valid-user
+		</Location>
+		Alias /webstat /var/www/vhosts/system/r2dtools.work.gd/statistics/webstat
+		Alias /webstat-ssl /var/www/vhosts/system/r2dtools.work.gd/statistics/webstat-ssl
+		Alias /ftpstat /var/www/vhosts/system/r2dtools.work.gd/statistics/ftpstat
+		Alias /anon_ftpstat /var/www/vhosts/system/r2dtools.work.gd/statistics/anon_ftpstat
+		Alias /awstats-icon /usr/share/awstats/icon
 
-        SSLEngine on
-        SSLVerifyClient none
-        SSLCertificateFile /opt/psa/var/certificates/cert9Jcn6w4
+		SSLEngine on
+		SSLVerifyClient none
+		SSLCertificateFile /opt/psa/var/certificates/cert9Jcn6w4
 
-        <Directory /var/www/vhosts/r2dtools.work.gd/httpdocs > # test inline comment
-            # test comment
-            <IfModule mod_fcgid.c >
-                <Files ~ (\.fcgi$) >
-                    SetHandler fcgid-script
-                    Options +ExecCGI
-                </Files>
-            </IfModule>
-            <IfModule mod_proxy_fcgi.c >
-                ProxyFCGISetEnvIf "true" SERVER_ADDR "10.129.0.29"
-                <Files ~ (\.php$) >
-                    SetHandler proxy:unix:/var/www/vhosts/system/r2dtools.work.gd/php-fpm.sock|fcgi://127.0.0.1:9000
-                </Files>
-            </IfModule>
+		<Directory /var/www/vhosts/r2dtools.work.gd/httpdocs > # test inline comment
+			# test comment
+			<IfModule mod_fcgid.c >
+				<Files ~ (\.fcgi$) >
+					SetHandler fcgid-script
+					Options +ExecCGI
+				</Files>
+			</IfModule>
+			<IfModule mod_proxy_fcgi.c >
+				ProxyFCGISetEnvIf "true" SERVER_ADDR "10.129.0.29"
+				<Files ~ (\.php$) >
+					SetHandler proxy:unix:/var/www/vhosts/system/r2dtools.work.gd/php-fpm.sock|fcgi://127.0.0.1:9000
+				</Files>
+			</IfModule>
 
-            SSLRequireSSL
+			SSLRequireSSL
 
-            Options -Includes -ExecCGI
+			Options -Includes -ExecCGI
 
-        </Directory>
+		</Directory>
 
-        <Directory "/var/www/vhosts/system/r2dtools.work.gd/statistics" >
-            AuthType Basic
-            AuthName "Domain statistics"
-            AuthUserFile "/var/www/vhosts/system/r2dtools.work.gd/pd/d..httpdocs@plesk-stat"
-            require valid-user
-        </Directory>
+		<Directory "/var/www/vhosts/system/r2dtools.work.gd/statistics" >
+			AuthType Basic
+			AuthName "Domain statistics"
+			AuthUserFile "/var/www/vhosts/system/r2dtools.work.gd/pd/d..httpdocs@plesk-stat"
+			require valid-user
+		</Directory>
 
-        Alias /error_docs /var/www/vhosts/r2dtools.work.gd/error_docs
-        ErrorDocument 400 /error_docs/bad_request.html
-        ErrorDocument 401 /error_docs/unauthorized.html
-        ErrorDocument 403 /error_docs/forbidden.html
-        ErrorDocument 404 /error_docs/not_found.html
-        ErrorDocument 500 /error_docs/internal_server_error.html
-        ErrorDocument 405 /error_docs/method_not_allowed.html
-        ErrorDocument 406 /error_docs/not_acceptable.html
-        ErrorDocument 407 /error_docs/proxy_authentication_required.html
-        ErrorDocument 412 /error_docs/precondition_failed.html
-        ErrorDocument 414 /error_docs/request_uri_too_long.html
-        ErrorDocument 415 /error_docs/unsupported_media_type.html
-        ErrorDocument 501 /error_docs/not_implemented.html
-        ErrorDocument 502 /error_docs/bad_gateway.html
-        ErrorDocument 503 /error_docs/maintenance.html
+		Alias /error_docs /var/www/vhosts/r2dtools.work.gd/error_docs
+		ErrorDocument 400 /error_docs/bad_request.html
+		ErrorDocument 401 /error_docs/unauthorized.html
+		ErrorDocument 403 /error_docs/forbidden.html
+		ErrorDocument 404 /error_docs/not_found.html
+		ErrorDocument 500 /error_docs/internal_server_error.html
+		ErrorDocument 405 /error_docs/method_not_allowed.html
+		ErrorDocument 406 /error_docs/not_acceptable.html
+		ErrorDocument 407 /error_docs/proxy_authentication_required.html
+		ErrorDocument 412 /error_docs/precondition_failed.html
+		ErrorDocument 414 /error_docs/request_uri_too_long.html
+		ErrorDocument 415 /error_docs/unsupported_media_type.html
+		ErrorDocument 501 /error_docs/not_implemented.html
+		ErrorDocument 502 /error_docs/bad_gateway.html
+		ErrorDocument 503 /error_docs/maintenance.html
 
-        DirectoryIndex "index.html" "index.cgi" "index.pl" "index.php" "index.xhtml" "index.htm" "index.shtml"
+		DirectoryIndex "index.html" "index.cgi" "index.pl" "index.php" "index.xhtml" "index.htm" "index.shtml"
 
-        <Directory /var/www/vhosts/r2dtools.work.gd >
-            Options -FollowSymLinks
-            AllowOverride AuthConfig FileInfo Indexes Limit Options=Indexes,SymLinksIfOwnerMatch,MultiViews,ExecCGI,Includes,IncludesNOEXEC
-        </Directory>
+		<Directory /var/www/vhosts/r2dtools.work.gd >
+			Options -FollowSymLinks
+			AllowOverride AuthConfig FileInfo Indexes Limit Options=Indexes,SymLinksIfOwnerMatch,MultiViews,ExecCGI,Includes,IncludesNOEXEC
+		</Directory>
 
-        #extension sslit begin
+		#extension sslit begin
 
-        #extension sslit end
+		#extension sslit end
 
-        #extension letsencrypt begin
-        Alias /.well-known/acme-challenge "/var/www/vhosts/default/htdocs/.well-known/acme-challenge"
+		#extension letsencrypt begin
+		Alias /.well-known/acme-challenge "/var/www/vhosts/default/htdocs/.well-known/acme-challenge"
 
-        <Location /.well-known/acme-challenge/ >
-            # Require all granted
-            Order Deny,Allow
-            Allow from all
-            Satisfy any
-        </Location>
+		<Location /.well-known/acme-challenge/ >
+			# Require all granted
+			Order Deny,Allow
+			Allow from all
+			Satisfy any
+		</Location>
 
-        <LocationMatch "^/.well-known/acme-challenge/(.*/|)\." >
-            # Require all denied
-            Order Allow,Deny
-            Deny from all
-        </LocationMatch>
-        #extension letsencrypt end
-    </VirtualHost>
+		<LocationMatch "^/.well-known/acme-challenge/(.*/|)\." >
+			# Require all denied
+			Order Allow,Deny
+			Deny from all
+		</LocationMatch>
+		#extension letsencrypt end
+	</VirtualHost>
 
 </IfModule>
 
 <VirtualHost 127.0.0.1:7080 >
-    ServerName "r2dtools.work.gd"
-    ServerAlias "www.r2dtools.work.gd"
-    ServerAlias "ipv4.r2dtools.work.gd"
-    UseCanonicalName Off
+	ServerName "r2dtools.work.gd"
+	ServerAlias "www.r2dtools.work.gd"
+	ServerAlias "ipv4.r2dtools.work.gd"
+	UseCanonicalName Off
 
-    CustomLog /var/www/vhosts/system/r2dtools.work.gd/logs/access_log plesklog
-    ErrorLog "/var/www/vhosts/system/r2dtools.work.gd/logs/error_log"
+	CustomLog /var/www/vhosts/system/r2dtools.work.gd/logs/access_log plesklog
+	ErrorLog "/var/www/vhosts/system/r2dtools.work.gd/logs/error_log"
 
-    # mailconfig
-    <IfModule mod_proxy_http.c >
-        <IfModule mod_rewrite.c >
-            RewriteEngine On
-            RewriteCond %{REQUEST_URI} ^/autodiscover/autodiscover\.xml$ [NC,OR]
-            RewriteCond %{REQUEST_URI} ^(/\.well-known/autoconfig)?/mail/config\-v1\.1\.xml$ [NC,OR]
-            RewriteCond %{REQUEST_URI} ^/email\.mobileconfig$ [NC]
-            RewriteRule ^(.*)$ http://127.0.0.1:8880/mailconfig/ [P,QSA,L,E=REQUEST_URI:%{REQUEST_URI},E=HOST:%{HTTP_HOST}]
-        </IfModule>
-        <Proxy "http://127.0.0.1:8880/mailconfig/" >
-            RequestHeader set X-Host "%{HOST}e"
-            RequestHeader set X-Request-URI "%{REQUEST_URI}e"
-        </Proxy>
-    </IfModule>
-    # mailconfig
+	# mailconfig
+	<IfModule mod_proxy_http.c >
+		<IfModule mod_rewrite.c >
+			RewriteEngine On
+			RewriteCond %{REQUEST_URI} ^/autodiscover/autodiscover\.xml$ [NC,OR]
+			RewriteCond %{REQUEST_URI} ^(/\.well-known/autoconfig)?/mail/config\-v1\.1\.xml$ [NC,OR]
+			RewriteCond %{REQUEST_URI} ^/email\.mobileconfig$ [NC]
+			RewriteRule ^(.*)$ http://127.0.0.1:8880/mailconfig/ [P,QSA,L,E=REQUEST_URI:%{REQUEST_URI},E=HOST:%{HTTP_HOST}]
+		</IfModule>
+		<Proxy "http://127.0.0.1:8880/mailconfig/" >
+			RequestHeader set X-Host "%{HOST}e"
+			RequestHeader set X-Request-URI "%{REQUEST_URI}e"
+		</Proxy>
+	</IfModule>
+	# mailconfig
 
-    <IfModule mod_rewrite.c >
-        RewriteEngine On
-        RewriteCond %{HTTPS} off
-        RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
-    </IfModule>
+	<IfModule mod_rewrite.c >
+		RewriteEngine On
+		RewriteCond %{HTTPS} off
+		RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
+	</IfModule>
 </VirtualHost>
