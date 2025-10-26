@@ -125,7 +125,7 @@ func (v *VirtualHostBlock) IsIpv4Enabled() bool {
 }
 
 func (v *VirtualHostBlock) FindDirectoryBlocks() []DirectoryBlock {
-	return findDirectoryBlocks(&v.Block)
+	return findBlocks[DirectoryBlock](&v.Block, Directory)
 }
 
 func (v *VirtualHostBlock) AddDirectoryBlock(isRegex bool, match string, begining bool) DirectoryBlock {
@@ -148,4 +148,18 @@ func (v *VirtualHostBlock) AddAliasDirective(fromLocation, toLocation string) Al
 
 func (v *VirtualHostBlock) DeleteAliasDirective(aliasDirective AliasDirective) {
 	deleteDirective(v.rawBlock, aliasDirective.Directive)
+}
+
+func (v *VirtualHostBlock) FindLocationBlocks() []LocationBlock {
+	return findBlocks[LocationBlock](&v.Block, Location)
+}
+
+func (v *VirtualHostBlock) DeleteLocationBlock(locationBlock LocationBlock) {
+	deleteBlock(v.rawBlock, locationBlock.Block)
+}
+
+func (v *VirtualHostBlock) AddLocationBlock(location string) LocationBlock {
+	block := v.AddBlock(string(Location), []string{location}, false)
+
+	return LocationBlock{Block: block}
 }

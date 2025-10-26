@@ -14,6 +14,7 @@ const (
 	Directory   BlockName = "Directory"
 	IfModule    BlockName = "IfModule"
 	Proxy       BlockName = "Proxy"
+	Location    BlockName = "Location"
 )
 
 type Block struct {
@@ -217,18 +218,6 @@ func deleteBlockEntityContainer(c entryContainer, callback func(block *rawparser
 	}
 
 	setEntries(c, dEntries)
-}
-
-func findDirectoryBlocks(locator blockLocator) []DirectoryBlock {
-	var directoryBlocks []DirectoryBlock
-
-	for _, block := range locator.FindBlocks(Directory) {
-		directoryBlocks = append(directoryBlocks, DirectoryBlock{
-			Block: block,
-		})
-	}
-
-	return directoryBlocks
 }
 
 func addDirectoryBlock(b *Block, isRegex bool, match string, begining bool) DirectoryBlock {
