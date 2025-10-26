@@ -163,3 +163,17 @@ func (v *VirtualHostBlock) AddLocationBlock(location string) LocationBlock {
 
 	return LocationBlock{Block: block}
 }
+
+func (v *VirtualHostBlock) FindLocationMatchBlocks() []LocationMatchBlock {
+	return findBlocks[LocationMatchBlock](&v.Block, LocationMatch)
+}
+
+func (v *VirtualHostBlock) DeleteLocationMatchBlock(locationMatchBlock LocationMatchBlock) {
+	deleteBlock(v.rawBlock, locationMatchBlock.Block)
+}
+
+func (v *VirtualHostBlock) AddLocationMatchBlock(locationMatch string) LocationMatchBlock {
+	block := v.AddBlock(string(LocationMatch), []string{locationMatch}, false)
+
+	return LocationMatchBlock{Block: block}
+}

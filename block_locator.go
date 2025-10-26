@@ -3,7 +3,7 @@ package goapacheconf
 import "slices"
 
 type BlockUnion interface {
-	VirtualHostBlock | IfModuleBlock | LocationBlock | DirectoryBlock
+	VirtualHostBlock | IfModuleBlock | LocationBlock | DirectoryBlock | LocationMatchBlock
 }
 
 type blockLocator interface {

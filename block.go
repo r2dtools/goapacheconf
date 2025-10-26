@@ -10,11 +10,12 @@ import (
 type BlockName string
 
 const (
-	VirtualHost BlockName = "VirtualHost"
-	Directory   BlockName = "Directory"
-	IfModule    BlockName = "IfModule"
-	Proxy       BlockName = "Proxy"
-	Location    BlockName = "Location"
+	VirtualHost   BlockName = "VirtualHost"
+	Directory     BlockName = "Directory"
+	IfModule      BlockName = "IfModule"
+	Proxy         BlockName = "Proxy"
+	Location      BlockName = "Location"
+	LocationMatch BlockName = "LocationMatch"
 )
 
 type Block struct {
