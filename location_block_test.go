@@ -31,7 +31,7 @@ func TestAddLocationBlock(t *testing.T) {
 		blocks := vBlock.FindLocationBlocks()
 		require.Len(t, blocks, 3)
 
-		vBlock.AddLocationBlock("/location")
+		vBlock.AddLocationBlock("/location", false)
 		_, err := configFile.Dump()
 		require.Nil(t, err)
 

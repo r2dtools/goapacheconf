@@ -78,12 +78,12 @@ func (c *ConfigFile) DeleteVirtualHostBlock(virtualHostBlock VirtualHostBlock) {
 	deleteBlock(c.configFile, virtualHostBlock.Block)
 }
 
-func (c *ConfigFile) AddBlock(name string, parameters []string) Block {
-	return newBlock(c.configFile, c.config, name, parameters, nil, false)
+func (c *ConfigFile) AddBlock(name string, parameters []string, begining bool) Block {
+	return newBlock(c.configFile, c.config, name, parameters, nil, begining)
 }
 
-func (c *ConfigFile) AddAliasDirective(fromLocation, toLocation string) AliasDirective {
-	directive := c.AddDirective(Alias, []string{fromLocation, toLocation}, false, true)
+func (c *ConfigFile) AddAliasDirective(fromLocation, toLocation string, begining bool) AliasDirective {
+	directive := c.AddDirective(Alias, []string{fromLocation, toLocation}, begining, true)
 
 	return AliasDirective{Directive: directive}
 }

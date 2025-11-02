@@ -31,7 +31,7 @@ func TestAddLocationMatchBlock(t *testing.T) {
 		blocks := vBlock.FindLocationMatchBlocks()
 		require.Len(t, blocks, 1)
 
-		vBlock.AddLocationMatchBlock("~/location")
+		vBlock.AddLocationMatchBlock("~/location", false)
 		_, err := configFile.Dump()
 		require.Nil(t, err)
 

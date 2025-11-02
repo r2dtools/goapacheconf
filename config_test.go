@@ -47,7 +47,7 @@ func TestAddConfigFile(t *testing.T) {
 
 	configFile.AddDirective("TestDirective", []string{"test"}, true, true)
 
-	block := configFile.AddBlock("TestBlock", []string{"test"})
+	block := configFile.AddBlock("TestBlock", []string{"test"}, false)
 	block.AddDirective("TestBlockDirective", []string{"test", "directive"}, false, true)
 
 	_, err = configFile.Dump()
