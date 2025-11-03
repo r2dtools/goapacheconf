@@ -262,9 +262,9 @@ func (c *Config) findDirectivesRecursively(
 
 		if identifier == string(directiveName) {
 			directives = append(directives, Directive{
-				IfModules:    ifModules,
-				rawDirective: directive,
-				container:    container,
+				IfModules: ifModules,
+				entry:     &rawparser.Entry{Directive: directive},
+				container: container,
 			})
 
 			return directives

@@ -45,10 +45,14 @@ func TestAddConfigFile(t *testing.T) {
 	configFile, err := config.AddConfigFile(configFilePath)
 	require.Nil(t, err)
 
-	configFile.AddDirective("TestDirective", []string{"test"}, true, true)
+	directive := NewDirective("TestDirective", []string{"test"})
+	directive.AppendNewLine()
+	directive = configFile.PrependDirective(directive)
 
 	block := configFile.AddBlock("TestBlock", []string{"test"}, false)
-	block.AddDirective("TestBlockDirective", []string{"test", "directive"}, false, true)
+	directive = NewDirective("TestBlockDirective", []string{"test", "directive"})
+	directive.AppendNewLine()
+	directive = block.AppendDirective(directive)
 
 	_, err = configFile.Dump()
 	require.Nil(t, err)

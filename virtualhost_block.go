@@ -140,8 +140,20 @@ func (v *VirtualHostBlock) FindAlliasDirectives() []AliasDirective {
 	return findDirectives[AliasDirective](v, Alias)
 }
 
-func (v *VirtualHostBlock) AddAliasDirective(fromLocation, toLocation string, begining bool) AliasDirective {
-	directive := v.AddDirective(Alias, []string{fromLocation, toLocation}, begining, true)
+func (v *VirtualHostBlock) AppendAliasDirective(fromLocation, toLocation string) AliasDirective {
+	directive := NewDirective(Alias, []string{fromLocation, toLocation})
+	directive.AppendNewLine()
+
+	directive = v.AppendDirective(directive)
+
+	return AliasDirective{Directive: directive}
+}
+
+func (v *VirtualHostBlock) PrependAliasDirective(fromLocation, toLocation string) AliasDirective {
+	directive := NewDirective(Alias, []string{fromLocation, toLocation})
+	directive.AppendNewLine()
+
+	directive = v.PrependDirective(directive)
 
 	return AliasDirective{Directive: directive}
 }

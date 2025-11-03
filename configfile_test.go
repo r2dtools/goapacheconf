@@ -16,7 +16,9 @@ func TestFindVirtualHostBlocksByNameInConfigFile(t *testing.T) {
 func TestAddDirectiveInConfigFile(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		configFile := getConfigFile(t, r2dtoolsConfigFileName)
-		configFile.AddDirective("test", []string{"test_value"}, true, true)
+		directive := NewDirective("test", []string{"test_value"})
+		directive.AppendNewLine()
+		directive = configFile.PrependDirective(directive)
 		_, err := configFile.Dump()
 		require.Nil(t, err)
 

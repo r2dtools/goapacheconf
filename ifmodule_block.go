@@ -55,15 +55,20 @@ func (b *IfModuleBlock) AddBlock(name string, parameters []string, begining bool
 	)
 }
 
-func (b *IfModuleBlock) AddDirective(name string, values []string, begining bool, endWithNewLine bool) Directive {
-	ifModules := append(b.IfModules, b.GetModuleName())
+func (b *IfModuleBlock) AppendDirective(directive Directive) Directive {
+	directive = b.Block.AppendDirective(directive)
 
-	return newDirective(
-		b.rawBlock,
-		name,
-		values,
-		ifModules,
-		begining,
-		endWithNewLine,
-	)
+	ifModules := append(b.IfModules, b.GetModuleName())
+	directive.IfModules = ifModules
+
+	return directive
+}
+
+func (b *IfModuleBlock) PrependDirective(directive Directive) Directive {
+	directive = b.Block.PrependDirective(directive)
+
+	ifModules := append(b.IfModules, b.GetModuleName())
+	directive.IfModules = ifModules
+
+	return directive
 }

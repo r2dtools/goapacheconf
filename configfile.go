@@ -70,8 +70,37 @@ func (c *ConfigFile) DeleteDirectiveByName(directiveName string) {
 	deleteDirectiveByName(c.configFile, directiveName)
 }
 
-func (c *ConfigFile) AddDirective(name string, values []string, begining bool, endWithNewLine bool) Directive {
-	return newDirective(c.configFile, name, values, nil, begining, endWithNewLine)
+func (c *ConfigFile) AppendDirective(directive Directive) Directive {
+	entries := c.configFile.GetEntries()
+	directive.setContainer(c.configFile)
+
+	var prevEntry *rawparser.Entry
+
+	if len(entries) > 0 {
+		prevEntry = entries[len(entries)-1]
+	}
+
+	if prevEntry == nil || len(prevEntry.EndNewLines) == 0 {
+		directive.PrependNewLine()
+	}
+
+	entries = append(entries, directive.entry)
+
+	setEntries(c.configFile, entries)
+
+	return directive
+}
+
+func (c *ConfigFile) PrependDirective(directive Directive) Directive {
+	entries := c.configFile.GetEntries()
+	directive.setContainer(c.configFile)
+
+	directive.PrependNewLine()
+	entries = append([]*rawparser.Entry{directive.entry}, entries...)
+
+	setEntries(c.configFile, entries)
+
+	return directive
 }
 
 func (c *ConfigFile) DeleteVirtualHostBlock(virtualHostBlock VirtualHostBlock) {
@@ -82,8 +111,20 @@ func (c *ConfigFile) AddBlock(name string, parameters []string, begining bool) B
 	return newBlock(c.configFile, c.config, name, parameters, nil, begining)
 }
 
-func (c *ConfigFile) AddAliasDirective(fromLocation, toLocation string, begining bool) AliasDirective {
-	directive := c.AddDirective(Alias, []string{fromLocation, toLocation}, begining, true)
+func (c *ConfigFile) AppendAliasDirective(fromLocation, toLocation string) AliasDirective {
+	directive := NewDirective(Alias, []string{fromLocation, toLocation})
+	directive.AppendNewLine()
+
+	directive = c.AppendDirective(directive)
+
+	return AliasDirective{Directive: directive}
+}
+
+func (c *ConfigFile) PrependAliasDirective(fromLocation, toLocation string) AliasDirective {
+	directive := NewDirective(Alias, []string{fromLocation, toLocation})
+	directive.AppendNewLine()
+
+	directive = c.PrependDirective(directive)
 
 	return AliasDirective{Directive: directive}
 }

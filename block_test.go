@@ -47,7 +47,9 @@ func TestAddDirectiveToBlock(t *testing.T) {
 		require.Len(t, vBlocks, 2)
 
 		vBlock := vBlocks[0]
-		vBlock.AddDirective("Test", []string{"test"}, true, true)
+		directive := NewDirective("Test", []string{"test"})
+		directive.AppendNewLine()
+		directive = vBlock.PrependDirective(directive)
 		_, err := configFile.Dump()
 		require.Nil(t, err)
 

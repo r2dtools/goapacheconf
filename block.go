@@ -81,15 +81,39 @@ func (b *Block) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBloc
 	return findIfModuleBlocksByModuleName(b, moduleName)
 }
 
-func (b *Block) AddDirective(name string, values []string, begining bool, endWithNewLine bool) Directive {
-	return newDirective(
-		b.rawBlock,
-		name,
-		values,
-		b.IfModules,
-		begining,
-		endWithNewLine,
-	)
+func (b *Block) AppendDirective(directive Directive) Directive {
+	directive.IfModules = b.IfModules
+	entries := b.rawBlock.GetEntries()
+	directive.setContainer(b.rawBlock)
+
+	var prevEntry *rawparser.Entry
+
+	if len(entries) > 0 {
+		prevEntry = entries[len(entries)-1]
+	}
+
+	if prevEntry == nil || len(prevEntry.EndNewLines) == 0 {
+		directive.PrependNewLine()
+	}
+
+	entries = append(entries, directive.entry)
+
+	setEntries(b.rawBlock, entries)
+
+	return directive
+}
+
+func (b *Block) PrependDirective(directive Directive) Directive {
+	directive.IfModules = b.IfModules
+	entries := b.rawBlock.GetEntries()
+	directive.setContainer(b.rawBlock)
+
+	directive.PrependNewLine()
+	entries = append([]*rawparser.Entry{directive.entry}, entries...)
+
+	setEntries(b.rawBlock, entries)
+
+	return directive
 }
 
 func (b *Block) DeleteDirective(directive Directive) {

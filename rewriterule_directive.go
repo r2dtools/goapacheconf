@@ -1,5 +1,7 @@
 package goapacheconf
 
+import "github.com/r2dtools/goapacheconf/internal/rawparser"
+
 type RewriteRuleDirective struct {
 	Directive
 }
@@ -10,7 +12,7 @@ func (d *RewriteRuleDirective) GetRelatedRewiteCondDirectives() []Directive {
 	var rcDirectives []Directive
 
 	for index, entry := range entries {
-		if entry.Directive == d.rawDirective {
+		if entry.Directive == d.entry.Directive {
 			dIndex = index
 
 			break
@@ -24,9 +26,9 @@ func (d *RewriteRuleDirective) GetRelatedRewiteCondDirectives() []Directive {
 
 		if directive != nil && directive.Identifier == RewriteCond {
 			rcDirectives = append(rcDirectives, Directive{
-				IfModules:    d.IfModules,
-				container:    d.container,
-				rawDirective: directive,
+				IfModules: d.IfModules,
+				entry:     &rawparser.Entry{Directive: directive},
+				container: d.container,
 			})
 		}
 

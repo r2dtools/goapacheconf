@@ -17,7 +17,9 @@ func TestAddDirectiveToIfModuleBlock(t *testing.T) {
 	require.Len(t, blocks, 1)
 
 	block := blocks[0]
-	directive := block.AddDirective("Test", []string{"test"}, true, true)
+	directive := NewDirective("Test", []string{"test"})
+	directive.AppendNewLine()
+	directive = block.PrependDirective(directive)
 	require.Equal(t, []string{"proxy_http"}, directive.IfModules)
 
 	nBlock := block.AddBlock("Test", []string{"test"}, true)
