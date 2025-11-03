@@ -76,3 +76,25 @@ func TestDeleteDirectiveFromBlock(t *testing.T) {
 		require.Empty(t, directives)
 	})
 }
+
+func TestGetOrder(t *testing.T) {
+	config := getConfig(t)
+
+	vBlocks := config.FindVirtualHostBlocksByServerName("r2dtools.work.gd")
+	require.Len(t, vBlocks, 2)
+
+	vBlock := vBlocks[0]
+	directives := vBlock.FindAlliasDirectives()
+	require.NotEmpty(t, directives)
+
+	directive := directives[0]
+	order := vBlock.GetDirectiveOrder(directive.Directive)
+	require.Equal(t, 13, order)
+
+	blocks := vBlock.FindDirectoryBlocks()
+	require.NotEmpty(t, blocks)
+	block := blocks[0]
+
+	order = vBlock.GetBlockOrder(block.Block)
+	require.Equal(t, 24, order)
+}

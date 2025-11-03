@@ -143,6 +143,30 @@ func (b *Block) AddBlock(name string, parameters []string, begining bool) Block 
 	)
 }
 
+func (b *Block) GetDirectiveOrder(directive Directive) int {
+	order := -1
+
+	for index, entry := range b.rawBlock.GetEntries() {
+		if entry.Directive == directive.entry.Directive {
+			return index
+		}
+	}
+
+	return order
+}
+
+func (b *Block) GetBlockOrder(block Block) int {
+	order := -1
+
+	for index, entry := range b.rawBlock.GetEntries() {
+		if entry.BlockDirective == block.rawBlock {
+			return index
+		}
+	}
+
+	return order
+}
+
 func newBlock(c entryContainer, config *Config, name string, parameters []string, ifModules []string, begining bool) Block {
 	rawBlock := &rawparser.BlockDirective{
 		Identifier: name,
