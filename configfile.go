@@ -12,7 +12,7 @@ type ConfigFile struct {
 	config     *Config
 }
 
-func (c *ConfigFile) FindDirectives(directiveName DirectiveName) []Directive {
+func (c *ConfigFile) FindDirectives(directiveName string) []Directive {
 	var (
 		directives []Directive
 		ifModules  []string
@@ -33,7 +33,7 @@ func (c *ConfigFile) FindAlliasDirectives() []AliasDirective {
 	return findDirectives[AliasDirective](c, Alias)
 }
 
-func (c *ConfigFile) FindBlocks(blockName BlockName) []Block {
+func (c *ConfigFile) FindBlocks(blockName string) []Block {
 	var (
 		blocks    []Block
 		ifModules []string
@@ -111,20 +111,14 @@ func (c *ConfigFile) AddBlock(name string, parameters []string, begining bool) B
 	return newBlock(c.configFile, c.config, name, parameters, nil, begining)
 }
 
-func (c *ConfigFile) AppendAliasDirective(fromLocation, toLocation string) AliasDirective {
-	directive := NewDirective(Alias, []string{fromLocation, toLocation})
-	directive.AppendNewLine()
-
-	directive = c.AppendDirective(directive)
+func (c *ConfigFile) AppendAliasDirective(aliasDirective AliasDirective) AliasDirective {
+	directive := c.AppendDirective(aliasDirective.Directive)
 
 	return AliasDirective{Directive: directive}
 }
 
-func (c *ConfigFile) PrependAliasDirective(fromLocation, toLocation string) AliasDirective {
-	directive := NewDirective(Alias, []string{fromLocation, toLocation})
-	directive.AppendNewLine()
-
-	directive = c.PrependDirective(directive)
+func (c *ConfigFile) PrependAliasDirective(aliasDirective AliasDirective) AliasDirective {
+	directive := c.PrependDirective(aliasDirective.Directive)
 
 	return AliasDirective{Directive: directive}
 }

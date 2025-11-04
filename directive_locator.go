@@ -5,10 +5,10 @@ type DirectiveUnion interface {
 }
 
 type directiveLocator interface {
-	FindDirectives(directiveName DirectiveName) []Directive
+	FindDirectives(directiveName string) []Directive
 }
 
-func findDirectives[T DirectiveUnion](locator directiveLocator, name DirectiveName) []T {
+func findDirectives[T DirectiveUnion](locator directiveLocator, name string) []T {
 	var directives []T
 
 	for _, directive := range locator.FindDirectives(name) {

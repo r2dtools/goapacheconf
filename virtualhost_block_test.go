@@ -86,7 +86,7 @@ func TestDeleteDirectiveInVirtualHostBlock(t *testing.T) {
 	})
 }
 
-func getVirtualHostBlockFirstDirective(t *testing.T, serverName string, directiveName DirectiveName) (*Config, Directive) {
+func getVirtualHostBlockFirstDirective(t *testing.T, serverName string, directiveName string) (*Config, Directive) {
 	config, block := getFirstVirtualHostBlock(t, serverName)
 	directives := block.FindDirectives(directiveName)
 	require.Len(t, directives, 1)

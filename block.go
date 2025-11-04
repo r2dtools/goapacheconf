@@ -7,15 +7,13 @@ import (
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 )
 
-type BlockName string
-
 const (
-	VirtualHost   BlockName = "VirtualHost"
-	Directory     BlockName = "Directory"
-	IfModule      BlockName = "IfModule"
-	Proxy         BlockName = "Proxy"
-	Location      BlockName = "Location"
-	LocationMatch BlockName = "LocationMatch"
+	VirtualHost   = "VirtualHost"
+	Directory     = "Directory"
+	IfModule      = "IfModule"
+	Proxy         = "Proxy"
+	Location      = "Location"
+	LocationMatch = "LocationMatch"
 )
 
 type Block struct {
@@ -49,7 +47,7 @@ func (b *Block) SetParameters(parameters []string) {
 	b.rawBlock.SetParameters(parameters)
 }
 
-func (b *Block) FindDirectives(directiveName DirectiveName) []Directive {
+func (b *Block) FindDirectives(directiveName string) []Directive {
 	var directives []Directive
 
 	for _, entry := range b.rawBlock.GetEntries() {
@@ -63,7 +61,7 @@ func (b *Block) FindRewriteRuleDirectives() []RewriteRuleDirective {
 	return findDirectives[RewriteRuleDirective](b, RewriteRule)
 }
 
-func (b *Block) FindBlocks(blockName BlockName) []Block {
+func (b *Block) FindBlocks(blockName string) []Block {
 	var blocks []Block
 
 	for _, entry := range b.rawBlock.GetEntries() {
@@ -308,7 +306,7 @@ func addDirectoryBlock(b *Block, isRegex bool, match string, begining bool) Dire
 		parameters = append(parameters, match)
 	}
 
-	block := b.AddBlock(string(Directory), parameters, begining)
+	block := b.AddBlock(Directory, parameters, begining)
 
 	return DirectoryBlock{
 		Block: block,

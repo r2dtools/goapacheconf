@@ -20,7 +20,9 @@ func TestFindAliasDirective(t *testing.T) {
 func TestAddAliasDirective(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		configFile := getConfigFile(t, r2dtoolsConfigFileName)
-		configFile.AppendAliasDirective("/from", "/to")
+		aliasDirective := NewAliasDirective("/from", "/to")
+		aliasDirective.AppendNewLine()
+		configFile.AppendAliasDirective(aliasDirective)
 
 		_, err := configFile.Dump()
 		require.Nil(t, err)

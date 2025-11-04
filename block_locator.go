@@ -7,7 +7,7 @@ type BlockUnion interface {
 }
 
 type blockLocator interface {
-	FindBlocks(blockName BlockName) []Block
+	FindBlocks(blockName string) []Block
 }
 
 type virtualHostBlockLocator interface {
@@ -18,7 +18,7 @@ type ifModuleBlockLocator interface {
 	FindIfModuleBlocks() []IfModuleBlock
 }
 
-func findBlocks[T BlockUnion](locator blockLocator, name BlockName) []T {
+func findBlocks[T BlockUnion](locator blockLocator, name string) []T {
 	var blocks []T
 
 	for _, block := range locator.FindBlocks(name) {

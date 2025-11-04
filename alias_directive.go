@@ -17,3 +17,9 @@ func (d *AliasDirective) GetToLocation() string {
 
 	return ""
 }
+
+func NewAliasDirective(toLocation, fromLocation string) AliasDirective {
+	directive := NewDirective(Alias, []string{toLocation, fromLocation})
+
+	return AliasDirective{Directive: directive}
+}

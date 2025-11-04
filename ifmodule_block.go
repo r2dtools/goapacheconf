@@ -23,7 +23,7 @@ func (b *IfModuleBlock) GetModuleName() string {
 	return strings.ToLower(name)
 }
 
-func (b *IfModuleBlock) FindBlocks(blockName BlockName) []Block {
+func (b *IfModuleBlock) FindBlocks(blockName string) []Block {
 	var blocks []Block
 	ifModules := append(b.IfModules, b.GetModuleName())
 

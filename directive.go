@@ -7,8 +7,6 @@ import (
 	"github.com/r2dtools/goapacheconf/internal/rawparser"
 )
 
-type DirectiveName string
-
 const (
 	LoadModule              = "LoadModule"
 	ServerName              = "ServerName"

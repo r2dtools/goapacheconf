@@ -140,20 +140,14 @@ func (v *VirtualHostBlock) FindAlliasDirectives() []AliasDirective {
 	return findDirectives[AliasDirective](v, Alias)
 }
 
-func (v *VirtualHostBlock) AppendAliasDirective(fromLocation, toLocation string) AliasDirective {
-	directive := NewDirective(Alias, []string{fromLocation, toLocation})
-	directive.AppendNewLine()
-
-	directive = v.AppendDirective(directive)
+func (v *VirtualHostBlock) AppendAliasDirective(aliasDirective AliasDirective) AliasDirective {
+	directive := v.AppendDirective(aliasDirective.Directive)
 
 	return AliasDirective{Directive: directive}
 }
 
-func (v *VirtualHostBlock) PrependAliasDirective(fromLocation, toLocation string) AliasDirective {
-	directive := NewDirective(Alias, []string{fromLocation, toLocation})
-	directive.AppendNewLine()
-
-	directive = v.PrependDirective(directive)
+func (v *VirtualHostBlock) PrependAliasDirective(aliasDirective AliasDirective) AliasDirective {
+	directive := v.PrependDirective(aliasDirective.Directive)
 
 	return AliasDirective{Directive: directive}
 }
@@ -171,7 +165,7 @@ func (v *VirtualHostBlock) DeleteLocationBlock(locationBlock LocationBlock) {
 }
 
 func (v *VirtualHostBlock) AddLocationBlock(location string, begining bool) LocationBlock {
-	block := v.AddBlock(string(Location), []string{location}, begining)
+	block := v.AddBlock(Location, []string{location}, begining)
 
 	return LocationBlock{Block: block}
 }
@@ -185,7 +179,7 @@ func (v *VirtualHostBlock) DeleteLocationMatchBlock(locationMatchBlock LocationM
 }
 
 func (v *VirtualHostBlock) AddLocationMatchBlock(locationMatch string, begining bool) LocationMatchBlock {
-	block := v.AddBlock(string(LocationMatch), []string{locationMatch}, begining)
+	block := v.AddBlock(LocationMatch, []string{locationMatch}, begining)
 
 	return LocationMatchBlock{Block: block}
 }

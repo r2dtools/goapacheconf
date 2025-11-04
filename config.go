@@ -122,7 +122,7 @@ func (c *Config) FindIfModuleBlocksByModuleName(moduleName string) []IfModuleBlo
 	return findIfModuleBlocksByModuleName(c, moduleName)
 }
 
-func (c *Config) FindBlocks(blockName BlockName) []Block {
+func (c *Config) FindBlocks(blockName string) []Block {
 	var (
 		blocks    []Block
 		ifModules []string
@@ -146,7 +146,7 @@ func (c *Config) FindBlocks(blockName BlockName) []Block {
 	return blocks
 }
 
-func (c *Config) FindDirectives(directiveName DirectiveName) []Directive {
+func (c *Config) FindDirectives(directiveName string) []Directive {
 	var (
 		directives []Directive
 		ifModules  []string
@@ -222,7 +222,7 @@ func (c *Config) IsDirectiveModulesEnabled(directive Directive) (enabled bool, d
 }
 
 func (c *Config) findDirectivesRecursively(
-	directiveName DirectiveName,
+	directiveName string,
 	path string,
 	container entryContainer,
 	entry *rawparser.Entry,
@@ -260,7 +260,7 @@ func (c *Config) findDirectivesRecursively(
 			}
 		}
 
-		if identifier == string(directiveName) {
+		if identifier == directiveName {
 			directives = append(directives, Directive{
 				IfModules: ifModules,
 				entry: &rawparser.Entry{
@@ -288,7 +288,7 @@ func (c *Config) findDirectivesRecursively(
 		rawDumper: &rawdumper.RawDumper{},
 	}
 
-	if blockDirective.Identifier == string(IfModule) {
+	if blockDirective.Identifier == IfModule {
 		ifModuleBlock := IfModuleBlock{Block: block}
 		ifModules = append(ifModules, ifModuleBlock.GetModuleName())
 	}
@@ -304,7 +304,7 @@ func (c *Config) findDirectivesRecursively(
 }
 
 func (c *Config) findBlocksRecursively(
-	blockName BlockName,
+	blockName string,
 	path string,
 	container entryContainer,
 	entry *rawparser.Entry,
@@ -355,10 +355,10 @@ func (c *Config) findBlocksRecursively(
 		rawDumper: &rawdumper.RawDumper{},
 	}
 
-	if blockDirective.Identifier == string(blockName) {
+	if blockDirective.Identifier == blockName {
 		blocks = append(blocks, block)
 	} else {
-		if blockDirective.Identifier == string(IfModule) {
+		if blockDirective.Identifier == IfModule {
 			ifModuleBlock := IfModuleBlock{Block: block}
 			ifModules = append(ifModules, ifModuleBlock.GetModuleName())
 		}
@@ -520,7 +520,8 @@ func (c *Config) getAbsPath(path string) string {
 }
 
 func (c *Config) isInclude(identifier string) bool {
-	return identifier == strings.ToLower(Include) || identifier == strings.ToLower(IncludeOptional)
+	return identifier == strings.ToLower(Include) ||
+		identifier == strings.ToLower(IncludeOptional)
 }
 
 func GetConfig(serverRootPath, configFilePath string) (*Config, error) {
