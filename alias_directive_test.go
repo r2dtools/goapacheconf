@@ -10,7 +10,7 @@ func TestFindAliasDirective(t *testing.T) {
 	config := getConfig(t)
 
 	directives := config.FindAliasDirectives()
-	require.Len(t, directives, 12)
+	require.Len(t, directives, 13)
 
 	acmeAlias := directives[9]
 	require.Equal(t, "/.well-known/acme-challenge", acmeAlias.GetFromLocation())
@@ -48,7 +48,7 @@ func TestDeleteAliasDirective(t *testing.T) {
 	testWithConfigFileRollback(t, r2dtoolsConfigFilePath, func(t *testing.T) {
 		configFile := getConfigFile(t, r2dtoolsConfigFileName)
 		directives := configFile.FindAlliasDirectives()
-		require.Len(t, directives, 8)
+		require.Len(t, directives, 9)
 
 		virtualHostBlocks := configFile.FindVirtualHostBlocks()
 		require.Len(t, virtualHostBlocks, 2)
@@ -60,6 +60,6 @@ func TestDeleteAliasDirective(t *testing.T) {
 
 		configFile = getConfigFile(t, r2dtoolsConfigFileName)
 		directives = configFile.FindAlliasDirectives()
-		require.Len(t, directives, 7)
+		require.Len(t, directives, 8)
 	})
 }

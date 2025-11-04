@@ -185,9 +185,9 @@ func (b *Block) ChangeDirectiveOrder(directive Directive, order int) {
 	entries = slices.Insert(entries, order, directive.entry)
 
 	if order > currentOrder {
-		entries = slices.Delete(entries, currentOrder, min(currentOrder+1, len(entries)-1))
+		entries = slices.Delete(entries, currentOrder, min(currentOrder+1, len(entries)))
 	} else {
-		entries = slices.Delete(entries, currentOrder+1, min(currentOrder+2, len(entries)-1))
+		entries = slices.Delete(entries, currentOrder+1, min(currentOrder+2, len(entries)))
 	}
 
 	b.rawBlock.SetEntries(entries)

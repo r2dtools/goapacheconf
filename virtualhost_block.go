@@ -183,3 +183,7 @@ func (v *VirtualHostBlock) AddLocationMatchBlock(locationMatch string, begining 
 
 	return LocationMatchBlock{Block: block}
 }
+
+func (v *VirtualHostBlock) ChangeAliasDirectiveOrder(aliasdirective AliasDirective, order int) {
+	v.ChangeDirectiveOrder(aliasdirective.Directive, order)
+}

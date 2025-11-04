@@ -154,6 +154,8 @@ func TestChangeDirectoryOrder(t *testing.T) {
 		RewriteCond %{HTTPS} off
 		RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
 	</IfModule>
+
+	Alias /.well-known/acme-challenge "/var/www/vhosts/default/htdocs/.well-known/acme-challenge"
 </VirtualHost>`
 
 	require.Equal(t, exepcted, content)
@@ -191,6 +193,51 @@ func TestChangeDirectoryOrder(t *testing.T) {
 		RewriteCond %{HTTPS} off
 		RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
 	</IfModule>
+
+	Alias /.well-known/acme-challenge "/var/www/vhosts/default/htdocs/.well-known/acme-challenge"
+</VirtualHost>`
+
+	require.Equal(t, exepcted, content)
+
+	aliasDirectives := vBlock.FindAlliasDirectives()
+	require.Len(t, aliasDirectives, 1)
+	aliasDirective := aliasDirectives[0]
+
+	vBlock.ChangeDirectiveOrder(aliasDirective.Directive, 1)
+	content = vBlock.Dump()
+
+	exepcted = `<VirtualHost 127.0.0.1:7080 >
+	ServerName "r2dtools.work.gd"
+	Alias /.well-known/acme-challenge "/var/www/vhosts/default/htdocs/.well-known/acme-challenge"
+	CustomLog /var/www/vhosts/system/r2dtools.work.gd/logs/access_log plesklog
+	ServerAlias "www.r2dtools.work.gd"
+	ServerAlias "ipv4.r2dtools.work.gd"
+	UseCanonicalName Off
+
+	ErrorLog "/var/www/vhosts/system/r2dtools.work.gd/logs/error_log"
+
+	# mailconfig
+	<IfModule mod_proxy_http.c >
+		<IfModule mod_rewrite.c >
+			RewriteEngine On
+			RewriteCond %{REQUEST_URI} ^/autodiscover/autodiscover\.xml$ [NC,OR]
+			RewriteCond %{REQUEST_URI} ^(/\.well-known/autoconfig)?/mail/config\-v1\.1\.xml$ [NC,OR]
+			RewriteCond %{REQUEST_URI} ^/email\.mobileconfig$ [NC]
+			RewriteRule ^(.*)$ http://127.0.0.1:8880/mailconfig/ [P,QSA,L,E=REQUEST_URI:%{REQUEST_URI},E=HOST:%{HTTP_HOST}]
+		</IfModule>
+		<Proxy "http://127.0.0.1:8880/mailconfig/" >
+			RequestHeader set X-Host "%{HOST}e"
+			RequestHeader set X-Request-URI "%{REQUEST_URI}e"
+		</Proxy>
+	</IfModule>
+	# mailconfig
+
+	<IfModule mod_rewrite.c >
+		RewriteEngine On
+		RewriteCond %{HTTPS} off
+		RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
+	</IfModule>
+
 </VirtualHost>`
 
 	require.Equal(t, exepcted, content)
