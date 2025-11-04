@@ -167,6 +167,34 @@ func (b *Block) GetBlockOrder(block Block) int {
 	return order
 }
 
+func (b *Block) ChangeDirectiveOrder(directive Directive, order int) {
+	currentOrder := b.GetDirectiveOrder(directive)
+
+	if currentOrder == -1 || currentOrder == order {
+		return
+	}
+
+	entries := b.rawBlock.GetEntries()
+
+	if order > len(entries)-1 {
+		order = len(entries) - 1
+	}
+
+	if order < 0 {
+		order = 0
+	}
+
+	entries = slices.Insert(entries, order, directive.entry)
+
+	if order > currentOrder {
+		entries = slices.Delete(entries, currentOrder, min(currentOrder+1, len(entries)-1))
+	} else {
+		entries = slices.Delete(entries, currentOrder+1, min(currentOrder+2, len(entries)-1))
+	}
+
+	b.rawBlock.SetEntries(entries)
+}
+
 func newBlock(c entryContainer, config *Config, name string, parameters []string, ifModules []string, begining bool) Block {
 	rawBlock := &rawparser.BlockDirective{
 		Identifier: name,

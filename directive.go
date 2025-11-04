@@ -30,6 +30,9 @@ const (
 	Order                   = "Order"
 	Allow                   = "Allow"
 	Satisfy                 = "Satisfy"
+	CustomLog               = "CustomLog"
+	ErrorLog                = "ErrorLog"
+	ProxyPass               = "ProxyPass"
 )
 
 type Directive struct {
@@ -81,6 +84,14 @@ func (d *Directive) AppendNewLine() {
 
 func (d *Directive) PrependNewLine() {
 	d.entry.StartNewLines = append(d.entry.StartNewLines, "\n")
+}
+
+func (d *Directive) HasPrependedNewLines() bool {
+	return len(d.entry.StartNewLines) > 0
+}
+
+func (d *Directive) HasAppendedNewLines() bool {
+	return len(d.entry.EndNewLines) > 0
 }
 
 func (d *Directive) setContainer(container entryContainer) {

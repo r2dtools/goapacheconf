@@ -27,7 +27,11 @@ func (d *RewriteRuleDirective) GetRelatedRewiteCondDirectives() []Directive {
 		if directive != nil && directive.Identifier == RewriteCond {
 			rcDirectives = append(rcDirectives, Directive{
 				IfModules: d.IfModules,
-				entry:     &rawparser.Entry{Directive: directive},
+				entry: &rawparser.Entry{
+					StartNewLines: entry.StartNewLines,
+					Directive:     directive,
+					EndNewLines:   entry.EndNewLines,
+				},
 				container: d.container,
 			})
 		}
